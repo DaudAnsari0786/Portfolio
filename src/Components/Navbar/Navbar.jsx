@@ -1,271 +1,417 @@
 import React, { useState, useRef, useEffect } from "react";
+import {
+  Home,
+  User,
+  Briefcase,
+  Code,
+  Mail,
+  Menu,
+  X,
+  ServerIcon,
+  ChevronDown,
+  UtensilsCrossed,
+  ShoppingCart,
+  Plane,
+  Code2,
+  Download,
+  Send,
+  ArrowRight,
+} from "lucide-react";
+import { Link, useLocation } from "react-router-dom";
+import { FaGithub, FaLinkedin, FaTwitter } from "react-icons/fa";
+import CV from "/public/AbuBakar.pdf";
 
 const Navbar = () => {
-  const [featuresOpen, setFeaturesOpen] = useState(false);
-  const [mobileOpen, setMobileOpen] = useState(false);
-  const [mobileAccordionOpen, setMobileAccordionOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const [isProjectsOpen, setIsProjectsOpen] = useState(false);
+  const [isMobileProjectsOpen, setIsMobileProjectsOpen] = useState(false);
   const dropdownRef = useRef(null);
+  const location = useLocation();
 
-  const features = [
-    { title: "Dashboard", description: "Overview of your activity", href: "#" },
-    { title: "Analytics", description: "Track your performance", href: "#" },
-    { title: "Settings", description: "Configure your preferences", href: "#" },
-    { title: "Integrations", description: "Connect with other tools", href: "#" },
-    { title: "Storage", description: "Manage your files", href: "#" },
-    { title: "Support", description: "Get help when needed", href: "#" },
-  ];
-
-  const navLinks = [
-    { label: "Products", href: "#" },
-    { label: "Resources", href: "#" },
-    { label: "Contact", href: "#" },
-  ];
-
-  // Close features dropdown when clicking outside
+  // Close dropdown when clicking outside
   useEffect(() => {
-    const handleClickOutside = (e) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
-        setFeaturesOpen(false);
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsProjectsOpen(false);
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  // Close dropdowns and mobile menu on route change
+  useEffect(() => {
+    setIsProjectsOpen(false);
+    setIsMobileProjectsOpen(false);
+    setIsOpen(false);
+  }, [location.pathname]);
+
   // Lock body scroll when mobile menu is open
   useEffect(() => {
-    document.body.style.overflow = mobileOpen ? "hidden" : "";
+    document.body.style.overflow = isOpen ? "hidden" : "unset";
     return () => {
-      document.body.style.overflow = "";
+      document.body.style.overflow = "unset";
     };
-  }, [mobileOpen]);
+  }, [isOpen]);
+
+  const navItems = [
+    { name: "Home", path: "/", icon: Home },
+    { name: "About", path: "/about", icon: User },
+    { name: "Services", path: "/services", icon: ServerIcon },
+    { name: "Skills", path: "/skills", icon: Code },
+    { name: "Contact", path: "/contact", icon: Mail },
+  ];
+
+  const projects = [
+    {
+      name: "Restaurant",
+      path: "/projects/restorent",
+      icon: UtensilsCrossed,
+      description: "Food ordering website",
+      color: "from-orange-500 to-red-500",
+    },
+    {
+      name: "E-Commerce",
+      path: "/projects/ecommerce",
+      icon: ShoppingCart,
+      description: "Online shopping store",
+      color: "from-emerald-500 to-teal-500",
+    },
+    {
+      name: "Travels",
+      path: "/projects/travels",
+      icon: Plane,
+      description: "Travel booking platform",
+      color: "from-sky-500 to-blue-500",
+    },
+    {
+      name: "All Project",
+      path: "/projects",
+      icon: Code2, // Changed from Plane to Code2 (more appropriate)
+      description: "View all my work",
+      color: "from-indigo-500 to-purple-500",
+    },
+  ];
+
+  // Fixed: Added back the hoverColor property that was missing
+  const socialLinks = [
+    { icon: <FaGithub />, href: "https://github.com/", label: "GitHub", hoverColor: "hover:text-gray-900 dark:hover:text-white" },
+    { icon: <FaLinkedin />, href: "https://linkedin.com/", label: "LinkedIn", hoverColor: "hover:text-blue-600" },
+    { icon: <FaTwitter />, href: "https://twitter.com/", label: "Twitter", hoverColor: "hover:text-sky-500" },
+  ];
+
+  const isActive = (path) => location.pathname === path;
+  const isProjectActive = () => location.pathname.startsWith("/projects");
 
   return (
-    <section className="py-4">
-      <div className="container mx-auto px-4 md:px-6">
-        <nav className="flex items-center justify-between">
-          {/* Logo */}
-          <a href="https://www.shadcnblocks.com" className="flex items-center gap-2">
-            <img
-              src="https://deifkwefumgah.cloudfront.net/shadcnblocks/block/logos/shadcnblockscom-icon.svg"
-              className="max-h-8"
-              alt="Shadcn UI Navbar"
-            />
-            <span className="text-lg font-semibold tracking-tighter">
-              Shadcnblocks.com
-            </span>
-          </a>
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-700">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16">
+          
+          {/* ── Logo ── */}
+          <Link to="/" className="flex items-center gap-2 group">
+            <div className="relative">
+              <div className="absolute inset-0 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-lg blur opacity-70 group-hover:opacity-100 transition-opacity duration-300" />
+              <div className="relative w-9 h-9 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-lg flex items-center justify-center">
+                <Code2 className="w-5 h-5 text-white" />
+              </div>
+            </div>
+            <div className="flex flex-col leading-none">
+              <span className="text-base font-bold bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-400 bg-clip-text text-transparent">
+                Abu Bakar
+              </span>
+              <span className="text-[10px] tracking-widest uppercase text-indigo-500 dark:text-indigo-400 font-semibold">
+                Ansari
+              </span>
+            </div>
+          </Link>
 
-          {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center">
-            <ul className="flex items-center space-x-1 list-none">
-              {/* Features Dropdown */}
-              <li className="relative" ref={dropdownRef}>
-                <button
-                  onClick={() => setFeaturesOpen((v) => !v)}
-                  onMouseEnter={() => setFeaturesOpen(true)}
-                  className="group inline-flex h-10 items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors hover:bg-slate-100 focus:bg-slate-100 focus:outline-none"
-                >
-                  Features
-                  <svg
-                    className={`ml-1 h-3 w-3 transition-transform duration-200 ${
-                      featuresOpen ? "rotate-180" : ""
-                    }`}
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                  >
-                    <polyline points="6 9 12 15 18 9" />
-                  </svg>
-                </button>
+          {/* ── Desktop Navigation ── */}
+          <div className="hidden md:flex items-center gap-1 bg-gray-100/70 dark:bg-gray-800/70 rounded-full p-1 border border-gray-200 dark:border-gray-700">
+            {navItems.slice(0, 2).map((item) => (
+              <Link
+                key={item.name}
+                to={item.path}
+                className={`relative px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
+                  isActive(item.path)
+                    ? "bg-white dark:bg-gray-700 text-indigo-600 dark:text-indigo-400 shadow-sm"
+                    : "text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400"
+                }`}
+              >
+                {item.name}
+              </Link>
+            ))}
 
-                {featuresOpen && (
-                  <div
-                    onMouseLeave={() => setFeaturesOpen(false)}
-                    className="absolute left-0 top-full z-50 mt-1 w-[600px] rounded-md border border-slate-200 bg-white p-3 shadow-lg"
-                  >
-                    <div className="grid grid-cols-2 gap-1">
-                      {features.map((feature, index) => (
-                        <a
-                          key={index}
-                          href={feature.href}
-                          className="rounded-md p-3 transition-colors hover:bg-slate-100"
-                        >
-                          <p className="mb-1 font-semibold text-slate-900">
-                            {feature.title}
-                          </p>
-                          <p className="text-sm text-slate-500">
-                            {feature.description}
-                          </p>
-                        </a>
-                      ))}
-                    </div>
-                  </div>
-                )}
-              </li>
-
-              {/* Other nav links */}
-              {navLinks.map((link) => (
-                <li key={link.label}>
-                  <a
-                    href={link.href}
-                    className="inline-flex h-10 items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors hover:bg-slate-100 focus:bg-slate-100 focus:outline-none"
-                  >
-                    {link.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Desktop CTA Buttons */}
-          <div className="hidden lg:flex items-center gap-4">
-            <button className="inline-flex h-10 items-center justify-center rounded-md border border-slate-200 bg-white px-4 py-2 text-sm font-medium transition-colors hover:bg-slate-100">
-              Sign in
-            </button>
-            <button className="inline-flex h-10 items-center justify-center rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-slate-800">
-              Start for free
-            </button>
-          </div>
-
-          {/* Mobile Menu Trigger */}
-          <button
-            onClick={() => setMobileOpen(true)}
-            className="lg:hidden inline-flex h-10 w-10 items-center justify-center rounded-md border border-slate-200 bg-white transition-colors hover:bg-slate-100"
-            aria-label="Open menu"
-          >
-            <svg
-              className="h-4 w-4"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-            >
-              <line x1="3" y1="6" x2="21" y2="6" />
-              <line x1="3" y1="12" x2="21" y2="12" />
-              <line x1="3" y1="18" x2="21" y2="18" />
-            </svg>
-          </button>
-        </nav>
-      </div>
-
-      {/* Mobile Menu Overlay */}
-      {mobileOpen && (
-        <div className="fixed inset-0 z-50 lg:hidden">
-          {/* Backdrop */}
-          <div
-            className="fixed inset-0 bg-black/40"
-            onClick={() => setMobileOpen(false)}
-          />
-
-          {/* Drawer (top sheet) */}
-          <div className="fixed top-0 left-0 right-0 max-h-screen overflow-auto bg-white p-6 shadow-lg">
-            <div className="flex justify-end">
+            {/* Projects Dropdown */}
+            <div className="relative" ref={dropdownRef}>
               <button
-                onClick={() => setMobileOpen(false)}
-                className="rounded-md p-2 text-slate-500 transition-colors hover:bg-slate-100"
-                aria-label="Close menu"
+                onClick={() => setIsProjectsOpen(!isProjectsOpen)}
+                className={`flex items-center gap-1 px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
+                  isProjectActive() || isProjectsOpen
+                    ? "bg-white dark:bg-gray-700 text-indigo-600 dark:text-indigo-400 shadow-sm"
+                    : "text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400"
+                }`}
               >
-                <svg
-                  className="h-4 w-4"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                >
-                  <line x1="18" y1="6" x2="6" y2="18" />
-                  <line x1="6" y1="6" x2="18" y2="18" />
-                </svg>
-              </button>
-            </div>
-
-            {/* Mobile Logo */}
-            <div className="mb-4">
-              <a
-                href="https://www.shadcnblocks.com"
-                className="flex items-center gap-2"
-              >
-                <img
-                  src="https://deifkwefumgah.cloudfront.net/shadcnblocks/block/logos/shadcnblockscom-icon.svg"
-                  className="max-h-8"
-                  alt="Shadcn UI Navbar"
+                Projects
+                <ChevronDown
+                  className={`w-4 h-4 transition-transform duration-300 ${
+                    isProjectsOpen ? "rotate-180" : ""
+                  }`}
                 />
-                <span className="text-lg font-semibold tracking-tighter">
-                  Shadcnblocks.com
-                </span>
-              </a>
-            </div>
+              </button>
 
-            {/* Mobile Content */}
-            <div className="flex flex-col p-4">
-              {/* Features Accordion */}
-              <div className="mt-4 mb-2">
-                <button
-                  onClick={() => setMobileAccordionOpen((v) => !v)}
-                  className="flex w-full items-center justify-between py-2 text-base font-medium transition-colors hover:underline"
-                >
-                  Features
-                  <svg
-                    className={`h-4 w-4 transition-transform duration-200 ${
-                      mobileAccordionOpen ? "rotate-180" : ""
-                    }`}
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                  >
-                    <polyline points="6 9 12 15 18 9" />
-                  </svg>
-                </button>
-
-                {mobileAccordionOpen && (
-                  <div className="mt-2 grid gap-1 md:grid-cols-2">
-                    {features.map((feature, index) => (
-                      <a
-                        key={index}
-                        href={feature.href}
-                        className="rounded-md p-3 transition-colors hover:bg-slate-100"
+              {/* Dropdown Menu */}
+              <div
+                className={`absolute top-full left-1/2 -translate-x-1/2 mt-3 w-80 bg-white dark:bg-gray-800 rounded-2xl shadow-2xl border border-gray-200 dark:border-gray-700 overflow-hidden transition-all duration-300 origin-top ${
+                  isProjectsOpen
+                    ? "opacity-100 scale-100 translate-y-0 pointer-events-auto"
+                    : "opacity-0 scale-95 -translate-y-2 pointer-events-none"
+                }`}
+              >
+                <div className="h-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500" />
+                <div className="p-2">
+                  {projects.map((project) => (
+                    <Link
+                      key={project.name}
+                      to={project.path}
+                      className={`group flex items-center gap-4 px-3 py-3 rounded-xl transition-all duration-200 ${
+                        isActive(project.path)
+                          ? "bg-indigo-50 dark:bg-gray-700"
+                          : "hover:bg-indigo-50 dark:hover:bg-gray-700"
+                      }`}
+                    >
+                      <div
+                        className={`w-11 h-11 bg-gradient-to-br ${project.color} rounded-xl flex items-center justify-center flex-shrink-0 shadow-md group-hover:scale-110 group-hover:rotate-3 transition-all duration-300`}
                       >
-                        <p className="mb-1 font-semibold text-slate-900">
-                          {feature.title}
-                        </p>
-                        <p className="text-sm text-slate-500">
-                          {feature.description}
-                        </p>
-                      </a>
-                    ))}
-                  </div>
-                )}
-              </div>
-
-              {/* Mobile Nav Links */}
-              <div className="flex flex-col gap-6">
-                {navLinks.map((link) => (
-                  <a
-                    key={link.label}
-                    href={link.href}
-                    className="font-medium"
-                  >
-                    {link.label}
-                  </a>
-                ))}
-              </div>
-
-              {/* Mobile CTA Buttons */}
-              <div className="mt-6 flex flex-col gap-4">
-                <button className="inline-flex h-10 items-center justify-center rounded-md border border-slate-200 bg-white px-4 py-2 text-sm font-medium transition-colors hover:bg-slate-100">
-                  Sign in
-                </button>
-                <button className="inline-flex h-10 items-center justify-center rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-slate-800">
-                  Start for free
-                </button>
+                        <project.icon className="w-5 h-5 text-white" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="text-sm font-semibold text-gray-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+                          {project.name}
+                        </div>
+                        <div className="text-xs text-gray-500 dark:text-gray-400 truncate">
+                          {project.description}
+                        </div>
+                      </div>
+                      <ArrowRight className="w-4 h-4 text-gray-400 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300" />
+                    </Link>
+                  ))}
+                </div>
               </div>
             </div>
+
+            {navItems.slice(2).map((item) => (
+              <Link
+                key={item.name}
+                to={item.path}
+                className={`relative px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
+                  isActive(item.path)
+                    ? "bg-white dark:bg-gray-700 text-indigo-600 dark:text-indigo-400 shadow-sm"
+                    : "text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400"
+                }`}
+              >
+                {item.name}
+              </Link>
+            ))}
+          </div>
+
+          {/* ── Right Side: Social + CTAs ── */}
+          <div className="hidden md:flex items-center gap-2">
+            {/* Social Icons */}
+            <div className="flex items-center gap-1 pr-2 border-r border-gray-200 dark:border-gray-700">
+              {socialLinks.map((social, index) => (
+                <a
+                  key={index}
+                  href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={social.label}
+                  className={`p-2 rounded-full border border-transparent text-gray-500 dark:text-gray-400 transition-all duration-200 hover:scale-110 hover:bg-gray-100 dark:hover:bg-gray-800 ${social.hoverColor}`}
+                >
+                  {social.icon}
+                </a>
+              ))}
+            </div>
+
+            {/* Hire Me Button */}
+            <Link
+              to="/contact"
+              className="group relative inline-flex items-center gap-2 px-5 py-2 rounded-full text-sm font-semibold text-white overflow-hidden shadow-lg shadow-indigo-500/25 transition-all duration-300 hover:scale-105 hover:shadow-indigo-500/40"
+            >
+              <span className="absolute inset-0 bg-gradient-to-r from-indigo-500 to-purple-600" />
+              <span className="absolute inset-0 bg-gradient-to-r from-purple-600 to-indigo-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              <Send className="relative w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+              <span className="relative">Hire Me</span>
+            </Link>
+
+            {/* Download CV Button */}
+            <a
+              href={CV}
+              download
+              className="group inline-flex items-center gap-2 px-5 py-2 rounded-full text-sm font-semibold border-2 border-gray-800 dark:border-gray-600 text-gray-800 dark:text-white transition-all duration-300 hover:bg-gray-800 dark:hover:bg-gray-700 hover:text-white hover:scale-105"
+            >
+              <Download className="w-4 h-4 transition-transform duration-300 group-hover:translate-y-0.5" />
+              <span>Resume</span>
+            </a>
+          </div>
+
+          {/* ── Mobile Menu Button ── */}
+          <div className="md:hidden flex items-center gap-2">
+            {/* Fixed: Changed href to CV */}
+            <a
+              href={CV}
+              download
+              aria-label="Download Resume"
+              className="p-2 text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 rounded-lg transition-all duration-200"
+            >
+              <Download className="w-5 h-5" />
+            </a>
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              aria-label="Toggle menu"
+              className="relative p-2 text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 rounded-lg transition-all duration-200"
+            >
+              {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            </button>
           </div>
         </div>
-      )}
-    </section>
+      </div>
+
+      {/* ── Mobile Navigation ── */}
+      <div
+        className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out ${
+          isOpen ? "max-h-[calc(100vh-4rem)] opacity-100" : "max-h-0 opacity-0"
+        }`}
+      >
+        <div className="px-3 pt-3 pb-6 space-y-1 bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700 max-h-[calc(100vh-4rem)] overflow-y-auto">
+          {navItems.slice(0, 2).map((item) => (
+            <Link
+              key={item.name}
+              to={item.path}
+              className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 ${
+                isActive(item.path)
+                  ? "text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-gray-800"
+                  : "text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-gray-800 hover:translate-x-1"
+              }`}
+              onClick={() => setIsOpen(false)}
+            >
+              <item.icon className="w-5 h-5" />
+              <span className="text-base font-medium">{item.name}</span>
+            </Link>
+          ))}
+
+          {/* Mobile Projects Dropdown */}
+          <div>
+            <button
+              onClick={() => setIsMobileProjectsOpen(!isMobileProjectsOpen)}
+              className={`w-full flex items-center justify-between px-4 py-3 rounded-xl transition-all duration-200 ${
+                isProjectActive()
+                  ? "text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-gray-800"
+                  : "text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-gray-800"
+              }`}
+            >
+              <div className="flex items-center gap-3">
+                <Briefcase className="w-5 h-5" />
+                <span className="text-base font-medium">Projects</span>
+              </div>
+              <ChevronDown
+                className={`w-5 h-5 transition-transform duration-300 ${
+                  isMobileProjectsOpen ? "rotate-180" : ""
+                }`}
+              />
+            </button>
+
+            <div
+              className={`overflow-hidden transition-all duration-300 ease-in-out ${
+                isMobileProjectsOpen
+                  ? "max-h-96 opacity-100 mt-1"
+                  : "max-h-0 opacity-0"
+              }`}
+            >
+              <div className="ml-4 space-y-1 border-l-2 border-indigo-300 dark:border-indigo-700 pl-3">
+                {projects.map((project) => (
+                  <Link
+                    key={project.name}
+                    to={project.path}
+                    className="group flex items-center gap-3 px-3 py-3 rounded-xl text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-gray-800 transition-all duration-200 hover:translate-x-1"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    <div
+                      className={`w-9 h-9 bg-gradient-to-br ${project.color} rounded-lg flex items-center justify-center flex-shrink-0 shadow-md`}
+                    >
+                      <project.icon className="w-4 h-4 text-white" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="text-sm font-medium">{project.name}</div>
+                      <div className="text-xs text-gray-500 dark:text-gray-400 truncate">
+                        {project.description}
+                      </div>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {navItems.slice(2).map((item) => (
+            <Link
+              key={item.name}
+              to={item.path}
+              className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 ${
+                isActive(item.path)
+                  ? "text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-gray-800"
+                  : "text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-gray-800 hover:translate-x-1"
+              }`}
+              onClick={() => setIsOpen(false)}
+            >
+              <item.icon className="w-5 h-5" />
+              <span className="text-base font-medium">{item.name}</span>
+            </Link>
+          ))}
+
+          {/* Divider */}
+          <div className="h-px bg-gradient-to-r from-transparent via-gray-300 dark:via-gray-700 to-transparent my-3" />
+
+          {/* Mobile Social Links */}
+          <div className="flex items-center justify-center gap-3 px-4 py-2">
+            {socialLinks.map((social, index) => (
+              <a
+                key={index}
+                href={social.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={social.label}
+                className={`p-3 rounded-full border border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400 transition-all duration-200 hover:scale-110 hover:bg-gray-100 dark:hover:bg-gray-800 ${social.hoverColor}`}
+              >
+                {social.icon}
+              </a>
+            ))}
+          </div>
+
+          {/* Mobile CTAs */}
+          <div className="px-4 pt-2 space-y-2">
+            <Link
+              to="/contact"
+              className="group relative flex items-center justify-center gap-2 w-full px-4 py-3 rounded-xl text-white font-semibold overflow-hidden shadow-lg shadow-indigo-500/25 transition-all duration-200 hover:scale-[1.02]"
+              onClick={() => setIsOpen(false)}
+            >
+              <span className="absolute inset-0 bg-gradient-to-r from-indigo-500 to-purple-600" />
+              <Send className="relative w-4 h-4" />
+              <span className="relative">Hire Me</span>
+            </Link>
+            <a
+              href={CV} // Fixed: Was "/resume.pdf", now points to imported CV
+              download
+              className="flex items-center justify-center gap-2 w-full px-4 py-3 rounded-xl border-2 border-gray-800 dark:border-gray-600 text-gray-800 dark:text-white font-semibold transition-all duration-200 hover:bg-gray-800 dark:hover:bg-gray-700 hover:text-white hover:scale-[1.02]"
+              onClick={() => setIsOpen(false)}
+            >
+              <Download className="w-4 h-4" />
+              <span>Download Resume</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </nav>
   );
 };
 
