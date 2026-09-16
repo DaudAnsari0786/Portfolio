@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import img1 from "/public/img.jpeg";
@@ -40,50 +40,19 @@ const imageVariants = {
   },
 };
 
-// ── Scroll-triggered section variants ──
-const sectionUp = {
-  hidden: { opacity: 0, y: 60 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.8, ease: [0.25, 0.1, 0.25, 1] },
-  },
-};
-
-const sectionLeft = {
-  hidden: { opacity: 0, x: -80 },
-  visible: {
-    opacity: 1,
-    x: 0,
-    transition: { duration: 0.8, ease: [0.25, 0.1, 0.25, 1] },
-  },
-};
-
-const sectionRight = {
-  hidden: { opacity: 0, x: 80 },
-  visible: {
-    opacity: 1,
-    x: 0,
-    transition: { duration: 0.8, ease: [0.25, 0.1, 0.25, 1] },
-  },
-};
-
-const sectionScale = {
-  hidden: { opacity: 0, scale: 0.92 },
+// ── Zoom-out scroll variants (matching all your sections) ──
+const sectionZoom = {
+  hidden: { opacity: 0, scale: 0.85 },
   visible: {
     opacity: 1,
     scale: 1,
-    transition: { duration: 0.8, ease: [0.25, 0.1, 0.25, 1] },
+    transition: { duration: 0.9, ease: [0.25, 0.1, 0.25, 1] },
   },
 };
 
-// ── Reusable animated section wrapper ──
-const AnimatedSection = ({ children, variant = "up", className = "" }) => {
+const AnimatedSection = ({ children, variant = "zoom", className = "" }) => {
   const variantsMap = {
-    up: sectionUp,
-    left: sectionLeft,
-    right: sectionRight,
-    scale: sectionScale,
+    zoom: sectionZoom,
   };
 
   return (
@@ -98,6 +67,14 @@ const AnimatedSection = ({ children, variant = "up", className = "" }) => {
     </motion.div>
   );
 };
+
+// ── Typing roles (for the animated subtitle) ──
+const ROLES = [
+  "Frontend Developer",
+  "React.js Enthusiast",
+  "UI/UX Focused",
+  "Problem Solver",
+];
 
 // ── Data ──
 const STATS = [
@@ -144,11 +121,61 @@ const TECH_BADGES = [
   },
 ];
 
+// ── Typewriter hook (no external lib) ──
+const useTypewriter = (words, typingSpeed = 90, deletingSpeed = 45, pause = 1400) => {
+  const [index, setIndex] = useState(0);
+  const [text, setText] = useState("");
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  useEffect(() => {
+    const current = words[index % words.length];
+    let timeout;
+
+    if (!isDeleting && text === current) {
+      timeout = setTimeout(() => setIsDeleting(true), pause);
+    } else if (isDeleting && text === "") {
+      setIsDeleting(false);
+      setIndex((prev) => (prev + 1) % words.length);
+    } else {
+      timeout = setTimeout(
+        () => {
+          setText((prev) =>
+            isDeleting
+              ? current.substring(0, prev.length - 1)
+              : current.substring(0, prev.length + 1)
+          );
+        },
+        isDeleting ? deletingSpeed : typingSpeed
+      );
+    }
+
+    return () => clearTimeout(timeout);
+  }, [text, isDeleting, index, words, typingSpeed, deletingSpeed, pause]);
+
+  return text;
+};
+
 const Home = () => {
+  const typedRole = useTypewriter(ROLES);
+
   return (
     <div className="min-h-screen bg-slate-950 text-white overflow-x-hidden">
+      {/* ── Grid backdrop (subtle) ── */}
+      <div
+        className="fixed inset-0 pointer-events-none opacity-[0.07] z-0"
+        style={{
+          backgroundImage:
+            "linear-gradient(to right, #94a3b8 1px, transparent 1px), linear-gradient(to bottom, #94a3b8 1px, transparent 1px)",
+          backgroundSize: "60px 60px",
+          maskImage:
+            "radial-gradient(ellipse 80% 60% at 50% 40%, #000 40%, transparent 100%)",
+          WebkitMaskImage:
+            "radial-gradient(ellipse 80% 60% at 50% 40%, #000 40%, transparent 100%)",
+        }}
+      />
+
       {/* ── Animated background blobs ── */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none">
+      <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
         <motion.div
           animate={{ x: [0, 100, 0], y: [0, -50, 0] }}
           transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
@@ -177,6 +204,18 @@ const Home = () => {
             className="relative flex justify-center items-center order-1 md:order-2"
           >
             <div className="relative w-72 h-72 md:w-96 md:h-96">
+              {/* Rotating gradient conic glow behind everything */}
+              <motion.div
+                animate={{ rotate: 360 }}
+                transition={{ duration: 12, repeat: Infinity, ease: "linear" }}
+                className="absolute inset-0 rounded-full opacity-40"
+                style={{
+                  background:
+                    "conic-gradient(from 0deg, transparent 0deg, #6366f1 90deg, transparent 180deg, #a855f7 270deg, transparent 360deg)",
+                  filter: "blur(30px)",
+                }}
+              />
+
               <motion.div
                 animate={{ rotate: 360 }}
                 transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
@@ -254,7 +293,7 @@ const Home = () => {
                     repeat: Infinity,
                     ease: "easeInOut",
                   }}
-                  className={`absolute ${badge.position} rounded-xl border border-slate-800 bg-slate-900/90 backdrop-blur px-3 py-1.5 md:px-4 md:py-2 shadow-lg z-10`}
+                  className={`absolute ${badge.position} rounded-xl border border-slate-800 bg-slate-900/90 backdrop-blur px-3 py-1.5 md:px-4 md:py-2 shadow-lg z-10 hover:border-indigo-500/50 transition-colors`}
                 >
                   <div className="flex items-center gap-2">
                     <span className="text-base md:text-xl">{badge.icon}</span>
@@ -281,33 +320,40 @@ const Home = () => {
           >
             <motion.div
               variants={itemVariants}
-              className="inline-flex items-center gap-2 rounded-full border border-slate-700 bg-slate-900/50 backdrop-blur px-7 py-3 text-sm text-slate-300 mb-6"
+              className="inline-flex items-center gap-2 rounded-full border border-slate-700 bg-slate-900/50 backdrop-blur px-5 py-2.5 text-sm text-slate-300 mb-6"
             >
-              <Sparkles
-                size={20}
-                className="text-blue-600 animate-pulse font-extrabold -ml-2"
-              />
-              <span className="text-blue-600 text-l font-semibold">
+             
+              <Sparkles size={20} color="green" className="text-indigo-400 animate-pulse" />
+              <span className="text-slate-200 font-medium">
                 Available for opportunities
               </span>
             </motion.div>
 
             <motion.h1
               variants={itemVariants}
-              className="text-2xl md:text-3xl lg:text-7xl font-bold tracking-tight leading-[1.1] mb-4"
+              className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.1] mb-4"
             >
-              Hii, I am
-              <span className="bg-gradient-to-r ml-2.5 from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
+              Hii, I am{" "}
+              <span className="relative inline-block bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent bg-[length:200%_auto] animate-[gradient_3s_linear_infinite]">
                 Abu Bakar Ansari
               </span>
             </motion.h1>
 
             <motion.h2
               variants={itemVariants}
-              className="text-xl md:text-2xl font-semibold text-slate-300 mb-6"
+              className="text-xl md:text-2xl font-semibold text-slate-300 mb-6 min-h-[2rem]"
             >
-              I am a
-              <span className="text-indigo-400"> Frontend Developer</span>
+              I am a{" "}
+              <span className="text-indigo-400">
+                {typedRole}
+                <motion.span
+                  animate={{ opacity: [1, 0, 1] }}
+                  transition={{ duration: 1, repeat: Infinity }}
+                  className="inline-block ml-0.5 text-indigo-400"
+                >
+                  |
+                </motion.span>
+              </span>
             </motion.h2>
 
             <motion.p
@@ -330,10 +376,12 @@ const Home = () => {
               <motion.div
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
+                className="relative"
               >
+                <span className="absolute inset-0 rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 blur-lg opacity-60 group-hover:opacity-100 transition-opacity" />
                 <Link
                   to="/projects"
-                  className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 px-7 py-3.5 text-sm font-semibold shadow-lg shadow-indigo-500/25"
+                  className="relative inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 px-7 py-3.5 text-sm font-semibold shadow-lg shadow-indigo-500/25"
                 >
                   View my work
                   <ArrowRight />
@@ -346,14 +394,17 @@ const Home = () => {
               >
                 <Link
                   to="/contact"
-                  className="inline-flex items-center gap-2 rounded-full border border-slate-700 px-7 py-3.5 text-sm font-semibold hover:bg-slate-900 transition-colors"
+                  className="inline-flex items-center gap-2 rounded-full border border-slate-700 px-7 py-3.5 text-sm font-semibold hover:bg-slate-900 hover:border-indigo-500/50 transition-colors"
                 >
                   Get in touch
                 </Link>
               </motion.div>
             </motion.div>
 
-            <motion.div variants={itemVariants} className="flex flex-wrap gap-6">
+            <motion.div
+              variants={itemVariants}
+              className="flex flex-wrap gap-6"
+            >
               {STATS.map((stat) => (
                 <motion.div
                   key={stat.label}
@@ -384,8 +435,10 @@ const Home = () => {
             transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
             className="flex flex-col items-center gap-2 text-slate-500"
           >
-            {/* <span className="text-xs tracking-widest uppercase">Scroll</span> */}
-            <Link to="/about">
+            <Link
+              to="/about"
+              className="hover:text-indigo-400 transition-colors"
+            >
               <ArrowDownToDot />
             </Link>
           </motion.div>
@@ -394,30 +447,30 @@ const Home = () => {
 
       {/* ── Scroll-animated Sections with Top & Bottom Shadow ── */}
       <div className="relative">
-        {/* Top shadow — fades from dark into the content */}
+        {/* Top shadow */}
         <div className="pointer-events-none absolute top-0 left-0 right-0 h-24 md:h-32 bg-gradient-to-b from-slate-950 via-slate-950/70 to-transparent z-20" />
 
-        <AnimatedSection variant="left">
+        <AnimatedSection variant="zoom">
           <About />
         </AnimatedSection>
 
-        <AnimatedSection variant="up">
+        <AnimatedSection variant="zoom">
           <Projects />
         </AnimatedSection>
 
-        <AnimatedSection variant="scale">
+        <AnimatedSection variant="zoom">
           <Service />
         </AnimatedSection>
 
-        <AnimatedSection variant="right">
+        <AnimatedSection variant="zoom">
           <Skills />
         </AnimatedSection>
 
-        <AnimatedSection variant="up">
+        <AnimatedSection variant="zoom">
           <Contact />
         </AnimatedSection>
 
-        {/* Bottom shadow — fades from content into dark */}
+        {/* Bottom shadow */}
         <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-24 md:h-32 bg-gradient-to-t from-slate-950 via-slate-950/70 to-transparent z-20" />
       </div>
     </div>

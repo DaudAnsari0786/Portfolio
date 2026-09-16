@@ -54,6 +54,23 @@ const Navbar = () => {
     };
   }, [isOpen]);
 
+  // ── Smooth scroll to top of page when a nav link is clicked ──
+  const handleNavClick = () => {
+    // Small delay so React Router can update the route first
+    setTimeout(() => {
+      window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: "smooth",
+      });
+    }, 50);
+
+    // Close any open menus
+    setIsOpen(false);
+    setIsProjectsOpen(false);
+    setIsMobileProjectsOpen(false);
+  };
+
   const navItems = [
     { name: "Home", path: "/", icon: Home },
     { name: "About", path: "/about", icon: User },
@@ -87,13 +104,12 @@ const Navbar = () => {
     {
       name: "All Project",
       path: "/projects",
-      icon: Code2, // Changed from Plane to Code2 (more appropriate)
+      icon: Code2,
       description: "View all my work",
       color: "from-indigo-500 to-purple-500",
     },
   ];
 
-  // Fixed: Added back the hoverColor property that was missing
   const socialLinks = [
     { icon: <FaGithub />, href: "https://github.com/", label: "GitHub", hoverColor: "hover:text-gray-900 dark:hover:text-white" },
     { icon: <FaLinkedin />, href: "https://linkedin.com/", label: "LinkedIn", hoverColor: "hover:text-blue-600" },
@@ -107,9 +123,9 @@ const Navbar = () => {
     <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-700">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          
+
           {/* ── Logo ── */}
-          <Link to="/" className="flex items-center gap-2 group">
+          <Link to="/" onClick={handleNavClick} className="flex items-center gap-2 group">
             <div className="relative">
               <div className="absolute inset-0 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-lg blur opacity-70 group-hover:opacity-100 transition-opacity duration-300" />
               <div className="relative w-9 h-9 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-lg flex items-center justify-center">
@@ -132,6 +148,7 @@ const Navbar = () => {
               <Link
                 key={item.name}
                 to={item.path}
+                onClick={handleNavClick}
                 className={`relative px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
                   isActive(item.path)
                     ? "bg-white dark:bg-gray-700 text-indigo-600 dark:text-indigo-400 shadow-sm"
@@ -174,6 +191,7 @@ const Navbar = () => {
                     <Link
                       key={project.name}
                       to={project.path}
+                      onClick={handleNavClick}
                       className={`group flex items-center gap-4 px-3 py-3 rounded-xl transition-all duration-200 ${
                         isActive(project.path)
                           ? "bg-indigo-50 dark:bg-gray-700"
@@ -204,6 +222,7 @@ const Navbar = () => {
               <Link
                 key={item.name}
                 to={item.path}
+                onClick={handleNavClick}
                 className={`relative px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
                   isActive(item.path)
                     ? "bg-white dark:bg-gray-700 text-indigo-600 dark:text-indigo-400 shadow-sm"
@@ -236,6 +255,7 @@ const Navbar = () => {
             {/* Hire Me Button */}
             <Link
               to="/contact"
+              onClick={handleNavClick}
               className="group relative inline-flex items-center gap-2 px-5 py-2 rounded-full text-sm font-semibold text-white overflow-hidden shadow-lg shadow-indigo-500/25 transition-all duration-300 hover:scale-105 hover:shadow-indigo-500/40"
             >
               <span className="absolute inset-0 bg-gradient-to-r from-indigo-500 to-purple-600" />
@@ -257,7 +277,6 @@ const Navbar = () => {
 
           {/* ── Mobile Menu Button ── */}
           <div className="md:hidden flex items-center gap-2">
-            {/* Fixed: Changed href to CV */}
             <a
               href={CV}
               download
@@ -288,12 +307,12 @@ const Navbar = () => {
             <Link
               key={item.name}
               to={item.path}
+              onClick={handleNavClick}
               className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 ${
                 isActive(item.path)
                   ? "text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-gray-800"
                   : "text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-gray-800 hover:translate-x-1"
               }`}
-              onClick={() => setIsOpen(false)}
             >
               <item.icon className="w-5 h-5" />
               <span className="text-base font-medium">{item.name}</span>
@@ -333,8 +352,8 @@ const Navbar = () => {
                   <Link
                     key={project.name}
                     to={project.path}
+                    onClick={handleNavClick}
                     className="group flex items-center gap-3 px-3 py-3 rounded-xl text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-gray-800 transition-all duration-200 hover:translate-x-1"
-                    onClick={() => setIsOpen(false)}
                   >
                     <div
                       className={`w-9 h-9 bg-gradient-to-br ${project.color} rounded-lg flex items-center justify-center flex-shrink-0 shadow-md`}
@@ -357,12 +376,12 @@ const Navbar = () => {
             <Link
               key={item.name}
               to={item.path}
+              onClick={handleNavClick}
               className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 ${
                 isActive(item.path)
                   ? "text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-gray-800"
                   : "text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-gray-800 hover:translate-x-1"
               }`}
-              onClick={() => setIsOpen(false)}
             >
               <item.icon className="w-5 h-5" />
               <span className="text-base font-medium">{item.name}</span>
@@ -392,15 +411,15 @@ const Navbar = () => {
           <div className="px-4 pt-2 space-y-2">
             <Link
               to="/contact"
+              onClick={handleNavClick}
               className="group relative flex items-center justify-center gap-2 w-full px-4 py-3 rounded-xl text-white font-semibold overflow-hidden shadow-lg shadow-indigo-500/25 transition-all duration-200 hover:scale-[1.02]"
-              onClick={() => setIsOpen(false)}
             >
               <span className="absolute inset-0 bg-gradient-to-r from-indigo-500 to-purple-600" />
               <Send className="relative w-4 h-4" />
               <span className="relative">Hire Me</span>
             </Link>
             <a
-              href={CV} // Fixed: Was "/resume.pdf", now points to imported CV
+              href={CV}
               download
               className="flex items-center justify-center gap-2 w-full px-4 py-3 rounded-xl border-2 border-gray-800 dark:border-gray-600 text-gray-800 dark:text-white font-semibold transition-all duration-200 hover:bg-gray-800 dark:hover:bg-gray-700 hover:text-white hover:scale-[1.02]"
               onClick={() => setIsOpen(false)}

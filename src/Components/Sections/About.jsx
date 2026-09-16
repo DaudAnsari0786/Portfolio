@@ -1,7 +1,8 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import img from "/public/img2.png"
+import img from "/public/img2.png";
+
 // ── Animation variants ──
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -29,9 +30,6 @@ const imageVariants = {
     transition: { duration: 0.9, ease: "easeOut" },
   },
 };
-
-
-
 
 const About = () => {
   return (
@@ -88,13 +86,14 @@ const About = () => {
       {/* ── Bio + Photo Section ── */}
       <section className="relative z-10 px-6 md:px-12 py-16 max-w-7xl mx-auto">
         <div className="grid md:grid-cols-2 gap-16 items-center">
-          {/* Photo / Visual */}
+
+          {/* Photo / Visual — shows FIRST on mobile, LEFT on desktop */}
           <motion.div
             variants={imageVariants}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
-            className="relative flex justify-center order-2 md:order-1"
+            className="relative flex justify-center order-1 md:order-1"
           >
             <div className="relative w-72 h-72 md:w-80 md:h-80">
               {/* Rings */}
@@ -128,7 +127,7 @@ const About = () => {
                 <motion.div
                   animate={{ y: [0, -8, 0] }}
                   transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-                  className="relative w-full h-full rounded-full overflow-hidden border-4  border-slate-800 bg-gradient-to-br from-slate-800 to-slate-900"
+                  className="relative w-full h-full rounded-full overflow-hidden border-4 border-slate-800 bg-gradient-to-br from-slate-800 to-slate-900"
                 >
                   <img
                     src={img}
@@ -140,13 +139,13 @@ const About = () => {
             </div>
           </motion.div>
 
-          {/* Bio Text */}
+          {/* Bio Text — shows SECOND on mobile, RIGHT on desktop */}
           <motion.div
             variants={containerVariants}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
-            className="order-1 md:order-2"
+            className="order-2 md:order-2"
           >
             <motion.h2
               variants={itemVariants}
@@ -219,9 +218,6 @@ const About = () => {
           </motion.div>
         </div>
       </section>
-
-    
-   
     </div>
   );
 };

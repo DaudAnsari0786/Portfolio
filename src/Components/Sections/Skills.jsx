@@ -1,21 +1,21 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { motion } from 'framer-motion';
-import { 
-  SiHtml5, 
-  SiJavascript, 
-  SiReact, 
-  SiTailwindcss, 
-  SiBootstrap, 
-  SiGithub, 
+import {
+  SiHtml5,
+  SiJavascript,
+  SiReact,
+  SiTailwindcss,
+  SiBootstrap,
+  SiGithub,
   SiFigma,
   SiNpm
 } from 'react-icons/si';
 
 // --- Custom CSS3 Icon (Official Shield Colors) ---
 const Css3Icon = () => (
-  <svg 
-    viewBox="0 0 24 24" 
-    className="w-6 h-6" 
+  <svg
+    viewBox="0 0 24 24"
+    className="w-6 h-6"
     fill="currentColor"
   >
     <path d="M1.5 0h21l-1.91 21.563L11.977 24l-8.564-2.438L1.5 0zm7.031 9.75l-.232-2.718 10.059.003.23-2.622L5.412 4.41l.698 8.01h9.126l-.326 3.426-2.91.804-2.955-.81-.188-2.11H6.248l.33 4.171L12 19.351l5.379-1.443.744-8.157H8.531z"/>
@@ -25,7 +25,6 @@ const Css3Icon = () => (
 // --- Data ---
 const skills = [
   { name: "HTML5", level: 95, icon: <SiHtml5 />, color: "text-orange-500", bg: "bg-orange-500" },
-  // Replaced SiCss3 with the custom Css3Icon
   { name: "CSS3", level: 90, icon: <Css3Icon />, color: "text-blue-500", bg: "bg-blue-500" },
   { name: "JavaScript", level: 85, icon: <SiJavascript />, color: "text-yellow-400", bg: "bg-yellow-400" },
   { name: "React.js", level: 88, icon: <SiReact />, color: "text-cyan-400", bg: "bg-cyan-400" },
@@ -36,7 +35,32 @@ const skills = [
   { name: "NPM", level: 80, icon: <SiNpm />, color: "text-red-500", bg: "bg-red-500" },
 ];
 
-// --- Animation Variants ---
+// ── Zoom-out scroll variants (matching Contact section exactly) ──
+const zoomOut = {
+  hidden: { opacity: 0, scale: 0.75 },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    transition: {
+      duration: 0.9,
+      ease: [0.25, 0.1, 0.25, 1],
+    },
+  },
+};
+
+const zoomOutSoft = {
+  hidden: { opacity: 0, scale: 0.88 },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    transition: {
+      duration: 0.8,
+      ease: [0.25, 0.1, 0.25, 1],
+    },
+  },
+};
+
+// ── Stagger container (matching Contact's info cards) ──
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
@@ -48,8 +72,9 @@ const containerVariants = {
   },
 };
 
+// Card variant — matches Contact's itemVariants (spring entrance)
 const cardVariants = {
-  hidden: { opacity: 0, y: 30, scale: 0.95 },
+  hidden: { opacity: 0, y: 20, scale: 0.95 },
   visible: {
     opacity: 1,
     y: 0,
@@ -58,6 +83,7 @@ const cardVariants = {
   },
 };
 
+// Progress bar fill
 const barVariants = {
   hidden: { width: 0 },
   visible: (level) => ({
@@ -67,37 +93,71 @@ const barVariants = {
 };
 
 const Skills = () => {
+  const sectionRef = useRef(null);
+
+  // Smooth scroll to top of section when clicked (matching Contact)
+  const handleSectionClick = (e) => {
+    const tag = e.target.tagName.toLowerCase();
+    if (
+      tag === 'input' ||
+      tag === 'textarea' ||
+      tag === 'button' ||
+      tag === 'a' ||
+      e.target.closest('button') ||
+      e.target.closest('a') ||
+      e.target.closest('input') ||
+      e.target.closest('textarea')
+    ) {
+      return;
+    }
+
+    sectionRef.current?.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start',
+    });
+  };
+
   return (
-    <section className="py-24 px-4 bg-[#0B1120] min-h-screen relative overflow-hidden">
-      
+    <section
+      ref={sectionRef}
+      onClick={handleSectionClick}
+      className="py-24 px-4 bg-[#0B1120] min-h-screen relative overflow-hidden scroll-mt-20 cursor-pointer"
+    >
+
       {/* Background Ambient Glow */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[500px] bg-purple-900/10 blur-[120px] rounded-full pointer-events-none" />
 
       <div className="max-w-7xl mx-auto relative z-10">
-        
-        {/* Header */}
-        <motion.div 
+
+        {/* Header — zooms out on scroll (like Contact's "Get In Touch") */}
+        <motion.div
+          variants={zoomOut}
           initial="hidden"
-          animate="visible"
-          variants={containerVariants}
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.3 }}
           className="text-center mb-16"
         >
-          <motion.h2 
-            variants={cardVariants}
+          <motion.h2
+            initial={{ opacity: 0, y: -20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
             className="text-4xl md:text-5xl font-bold text-white mb-4"
           >
             My <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-pink-500">Skills</span>
           </motion.h2>
-          <motion.p 
-            variants={cardVariants}
+          <motion.p
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2 }}
             className="text-gray-400 max-w-2xl mx-auto"
           >
             A comprehensive overview of the technologies and tools I use to bring ideas to life.
           </motion.p>
         </motion.div>
 
-        {/* Skills Grid */}
-        <motion.div 
+        {/* Skills Grid — staggered zoom (like Contact's info cards) */}
+        <motion.div
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
@@ -143,12 +203,12 @@ const Skills = () => {
           ))}
         </motion.div>
 
-        {/* Footer Note */}
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.5, duration: 0.6 }}
+        {/* Footer Note — soft zoom (like Contact's "Let's Work Together" card) */}
+        <motion.div
+          variants={zoomOutSoft}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.5 }}
           className="text-center mt-16"
         >
           <p className="text-gray-500 text-sm">

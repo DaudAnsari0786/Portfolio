@@ -63,6 +63,7 @@ const AnimatedRoutes = () => {
         <Route path="/projects" element={<AnimatedPage><Project /></AnimatedPage>} />
         <Route path="/skills" element={<AnimatedPage><Skills /></AnimatedPage>} />
         <Route path="/services" element={<AnimatedPage><Services /></AnimatedPage>} />
+        
       </Routes>
     </AnimatePresence>
   );
