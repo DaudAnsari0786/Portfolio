@@ -384,7 +384,7 @@ const Home = () => {
             transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
             className="flex flex-col items-center gap-2 text-slate-500"
           >
-            <span className="text-xs tracking-widest uppercase">Scroll</span>
+            {/* <span className="text-xs tracking-widest uppercase">Scroll</span> */}
             <Link to="/about">
               <ArrowDownToDot />
             </Link>

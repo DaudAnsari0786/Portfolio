@@ -1,7 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-
+import img from "/public/img2.png"
 // ── Animation variants ──
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -128,10 +128,10 @@ const About = () => {
                 <motion.div
                   animate={{ y: [0, -8, 0] }}
                   transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-                  className="relative w-full h-full rounded-full overflow-hidden border-4 border-slate-800 bg-gradient-to-br from-slate-800 to-slate-900"
+                  className="relative w-full h-full rounded-full overflow-hidden border-4  border-slate-800 bg-gradient-to-br from-slate-800 to-slate-900"
                 >
                   <img
-                    src="https://images.unsplash.com/photo-1531891437562-4301cf35b7e4?w=600&h=600&fit=crop&crop=face"
+                    src={img}
                     alt="Abu Bakar Ansari"
                     className="w-full h-full object-cover"
                   />
