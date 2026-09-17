@@ -56,7 +56,6 @@ const Navbar = () => {
 
   // ── Smooth scroll to top of page when a nav link is clicked ──
   const handleNavClick = () => {
-    // Small delay so React Router can update the route first
     setTimeout(() => {
       window.scrollTo({
         top: 0,
@@ -65,7 +64,6 @@ const Navbar = () => {
       });
     }, 50);
 
-    // Close any open menus
     setIsOpen(false);
     setIsProjectsOpen(false);
     setIsMobileProjectsOpen(false);
@@ -82,24 +80,27 @@ const Navbar = () => {
   const projects = [
     {
       name: "Restaurant",
-      path: "/projects/restorent",
+      path: "https://restorent-website-mnkz665hs-daudansari6472-8938s-projects.vercel.app/",
       icon: UtensilsCrossed,
       description: "Food ordering website",
       color: "from-orange-500 to-red-500",
+      external: true,
     },
     {
       name: "E-Commerce",
-      path: "/projects/ecommerce",
+      path: "https://your-ecommerce-site.vercel.app/", // ← replace with real URL
       icon: ShoppingCart,
       description: "Online shopping store",
       color: "from-emerald-500 to-teal-500",
+      external: true,
     },
     {
       name: "Travels",
-      path: "/projects/travels",
+      path: "https://your-travels-site.vercel.app/", // ← replace with real URL
       icon: Plane,
       description: "Travel booking platform",
       color: "from-sky-500 to-blue-500",
+      external: true,
     },
     {
       name: "All Project",
@@ -107,6 +108,7 @@ const Navbar = () => {
       icon: Code2,
       description: "View all my work",
       color: "from-indigo-500 to-purple-500",
+      external: false,
     },
   ];
 
@@ -117,7 +119,8 @@ const Navbar = () => {
   ];
 
   const isActive = (path) => location.pathname === path;
-  const isProjectActive = () => location.pathname.startsWith("/projects");
+  const isProjectActive = () =>
+    location.pathname === "/projects" || location.pathname.startsWith("/projects/");
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-700">
@@ -187,33 +190,41 @@ const Navbar = () => {
               >
                 <div className="h-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500" />
                 <div className="p-2">
-                  {projects.map((project) => (
-                    <Link
-                      key={project.name}
-                      to={project.path}
-                      onClick={handleNavClick}
-                      className={`group flex items-center gap-4 px-3 py-3 rounded-xl transition-all duration-200 ${
-                        isActive(project.path)
-                          ? "bg-indigo-50 dark:bg-gray-700"
-                          : "hover:bg-indigo-50 dark:hover:bg-gray-700"
-                      }`}
-                    >
-                      <div
-                        className={`w-11 h-11 bg-gradient-to-br ${project.color} rounded-xl flex items-center justify-center flex-shrink-0 shadow-md group-hover:scale-110 group-hover:rotate-3 transition-all duration-300`}
+                  {projects.map((project) => {
+                    const linkProps = project.external
+                      ? { href: project.path, target: "_blank", rel: "noopener noreferrer" }
+                      : { to: project.path };
+
+                    const Tag = project.external ? "a" : Link;
+
+                    return (
+                      <Tag
+                        key={project.name}
+                        {...linkProps}
+                        onClick={handleNavClick}
+                        className={`group flex items-center gap-4 px-3 py-3 rounded-xl transition-all duration-200 ${
+                          !project.external && isActive(project.path)
+                            ? "bg-indigo-50 dark:bg-gray-700"
+                            : "hover:bg-indigo-50 dark:hover:bg-gray-700"
+                        }`}
                       >
-                        <project.icon className="w-5 h-5 text-white" />
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <div className="text-sm font-semibold text-gray-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
-                          {project.name}
+                        <div
+                          className={`w-11 h-11 bg-gradient-to-br ${project.color} rounded-xl flex items-center justify-center flex-shrink-0 shadow-md group-hover:scale-110 group-hover:rotate-3 transition-all duration-300`}
+                        >
+                          <project.icon className="w-5 h-5 text-white" />
                         </div>
-                        <div className="text-xs text-gray-500 dark:text-gray-400 truncate">
-                          {project.description}
+                        <div className="flex-1 min-w-0">
+                          <div className="text-sm font-semibold text-gray-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+                            {project.name}
+                          </div>
+                          <div className="text-xs text-gray-500 dark:text-gray-400 truncate">
+                            {project.description}
+                          </div>
                         </div>
-                      </div>
-                      <ArrowRight className="w-4 h-4 text-gray-400 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300" />
-                    </Link>
-                  ))}
+                        <ArrowRight className="w-4 h-4 text-gray-400 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300" />
+                      </Tag>
+                    );
+                  })}
                 </div>
               </div>
             </div>
@@ -236,7 +247,6 @@ const Navbar = () => {
 
           {/* ── Right Side: Social + CTAs ── */}
           <div className="hidden md:flex items-center gap-2">
-            {/* Social Icons */}
             <div className="flex items-center gap-1 pr-2 border-r border-gray-200 dark:border-gray-700">
               {socialLinks.map((social, index) => (
                 <a
@@ -245,14 +255,13 @@ const Navbar = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={social.label}
-                  className={`p-2 rounded-full border border-transparent text-gray-500 dark:text-gray-400 transition-all duration-200 hover:scale-110 hover:bg-gray-100 dark:hover:bg-gray-800 ${social.hoverColor}`}
+                  className={`p-2 text-2xl rounded-full border border-transparent text-gray-500 dark:text-gray-400 transition-all duration-200 hover:scale-110 hover:bg-gray-100 dark:hover:bg-gray-800 ${social.hoverColor}`}
                 >
                   {social.icon}
                 </a>
               ))}
             </div>
 
-            {/* Hire Me Button */}
             <Link
               to="/contact"
               onClick={handleNavClick}
@@ -264,7 +273,6 @@ const Navbar = () => {
               <span className="relative">Hire Me</span>
             </Link>
 
-            {/* Download CV Button */}
             <a
               href={CV}
               download
@@ -348,26 +356,34 @@ const Navbar = () => {
               }`}
             >
               <div className="ml-4 space-y-1 border-l-2 border-indigo-300 dark:border-indigo-700 pl-3">
-                {projects.map((project) => (
-                  <Link
-                    key={project.name}
-                    to={project.path}
-                    onClick={handleNavClick}
-                    className="group flex items-center gap-3 px-3 py-3 rounded-xl text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-gray-800 transition-all duration-200 hover:translate-x-1"
-                  >
-                    <div
-                      className={`w-9 h-9 bg-gradient-to-br ${project.color} rounded-lg flex items-center justify-center flex-shrink-0 shadow-md`}
+                {projects.map((project) => {
+                  const linkProps = project.external
+                    ? { href: project.path, target: "_blank", rel: "noopener noreferrer" }
+                    : { to: project.path };
+
+                  const Tag = project.external ? "a" : Link;
+
+                  return (
+                    <Tag
+                      key={project.name}
+                      {...linkProps}
+                      onClick={handleNavClick}
+                      className="group flex items-center gap-3 px-3 py-3 rounded-xl text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-gray-800 transition-all duration-200 hover:translate-x-1"
                     >
-                      <project.icon className="w-4 h-4 text-white" />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="text-sm font-medium">{project.name}</div>
-                      <div className="text-xs text-gray-500 dark:text-gray-400 truncate">
-                        {project.description}
+                      <div
+                        className={`w-9 h-9 bg-gradient-to-br ${project.color} rounded-lg flex items-center justify-center flex-shrink-0 shadow-md`}
+                      >
+                        <project.icon className="w-4 h-4 text-white" />
                       </div>
-                    </div>
-                  </Link>
-                ))}
+                      <div className="flex-1 min-w-0">
+                        <div className="text-sm font-medium">{project.name}</div>
+                        <div className="text-xs text-gray-500 dark:text-gray-400 truncate">
+                          {project.description}
+                        </div>
+                      </div>
+                    </Tag>
+                  );
+                })}
               </div>
             </div>
           </div>
