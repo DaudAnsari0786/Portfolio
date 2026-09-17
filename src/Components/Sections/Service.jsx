@@ -1,5 +1,6 @@
 import React, { useRef } from "react";
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 import {
   Layout,
   Code2,
@@ -198,15 +199,20 @@ const Services = () => {
                 ))}
               </ul>
 
-              {/* Know More Link — path changed to /contact */}
-              <motion.a
-                href="/contact"
+              {/* Know More Link — now using React Router Link */}
+              <motion.div
                 whileHover={{ x: 5 }}
-                className="inline-flex items-center gap-2 text-sm font-medium text-blue-500 hover:text-blue-400 transition-colors"
+                transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                className="inline-block"
               >
-                Know More
-                <ArrowRight className="w-4 h-4" />
-              </motion.a>
+                <Link
+                  to="/contact"
+                  className="inline-flex items-center gap-2 text-sm font-medium text-blue-500 hover:text-blue-400 transition-colors"
+                >
+                  Know More
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
+              </motion.div>
             </motion.div>
           ))}
         </motion.div>
