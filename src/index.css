@@ -1,61 +1,40 @@
 @import "tailwindcss";
+@layer base {
+  html {
+    scroll-behavior: smooth;
+        scrollbar-width: none;
+  }
 
-/* ── Smooth Scrolling ── */
-html {
-  scroll-behavior: smooth;
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased; /* Makes text look crisper on Mac/WebKit */
+    -moz-osx-font-smoothing: grayscale;
+    
+    -ms-overflow-style: none;
+  }
+
+  * {
+    transition: background-color 0.3s ease,
+                color 0.3s ease,
+                border-color 0.3s ease;
+  }
+
+
+  input {
+    font-family: Arial, Helvetica, sans-serif;
+  }
 }
 
-/* ── Global Transition (hover states, theme changes) ── */
-* {
-  transition: background-color 0.3s ease,
-              color 0.3s ease,
-              border-color 0.3s ease;
-}
-
-/* ── Hide Scrollbar (but keep scrolling functional) ── */
-
-/* Chrome, Safari, Edge, and other WebKit/Blink browsers */
 ::-webkit-scrollbar {
   width: 0;
   height: 0;
   background: transparent;
 }
 
-/* Firefox */
-html {
-  scrollbar-width: none;
-}
-
-/* IE / Legacy Edge */
-body {
-  -ms-overflow-style: none;
-}
-
-/* ── Utility Filters ── */
 .invertImg {
   filter: invert(0.23);
 }
 
 .noInvertImg {
   filter: invert(0);
-}
-
-/* ── Form Inputs ── */
-input {
-  font-family: Arial, Helvetica, sans-serif;
-}/* Chrome, Safari, Edge */
-::-webkit-scrollbar {
-  width: 0;
-  height: 0;
-  background: transparent;
-}
-
-/* Firefox */
-html {
-  scrollbar-width: none;
-}
-
-/* IE / Legacy Edge */
-body {
-  -ms-overflow-style: none;
 }

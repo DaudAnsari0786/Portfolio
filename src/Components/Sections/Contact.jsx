@@ -141,10 +141,11 @@ const Contact = () => {
   ];
 
   const socialLinks = [
-    { icon: <FaGithub />, href: "#" },
-    { icon: <FaLinkedin />, href: "#" },
-    { icon: <FaTwitter />, href: "#" },
-    { icon: <FaFacebookF />, href: "#" },
+    { icon: <FaGithub />, href: "https://github.com/DaudAnsari0786" },
+    { icon: <FaLinkedin />, href: "www.linkedin.com/in/abu-bakar-ansari-798717436 Vanity URL name" },
+    {   icon: <IoLogoYoutube />, link: "https://www.youtube.com/@DaudAnsari_900" },
+    { icon: <FaTwitter />, href: "https://x.com/daudansari6472" },
+    { icon: <FaFacebookF />, href: "https://www.facebook.com/kameena.ladka.549221?rdid=T18sB82hWoxNan06&share_url=https%253A%252F%252Fwww.facebook.com%252Fshare%252F19Gs3qKSgw%252F#" },
   ];
 
   return (

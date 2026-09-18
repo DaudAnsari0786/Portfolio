@@ -28,10 +28,10 @@ const Footer = () => {
 
   const socialLinks = [
     { name: 'GitHub', icon: <FaGithub />, url: 'https://github.com/DaudAnsari0786' },
-    { name: 'LinkedIn', icon: <FaLinkedinIn />, url: 'https://linkedin.com' },
-    { name: 'Twitter', icon: <FaTwitter />, url: 'https://twitter.com' },
-    { name: 'Instagram', icon: <FaInstagram />, url: 'https://instagram.com' },
-    { name: 'YouTube', icon: <FaYoutube />, url: 'https://youtube.com' },
+    { name: 'LinkedIn', icon: <FaLinkedinIn />, url: 'www.linkedin.com/in/abu-bakar-ansari-798717436 Vanity URL name' },
+    { name: 'Twitter', icon: <FaTwitter />, url: 'https://x.com/daudansari6472' },
+    { name: 'Instagram', icon: <FaInstagram />, url: 'https://www.instagram.com/official_venom_900/' },
+    { name: 'YouTube', icon: <FaYoutube />, url: 'https://www.youtube.com/@DaudAnsari_900' },
   ];
 
   // Each service now points to a route (or /services)
