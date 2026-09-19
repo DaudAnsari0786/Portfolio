@@ -119,6 +119,16 @@ const Services = () => {
     });
   };
 
+  const handleKnowMoreClick = () => {
+    setTimeout(() => {
+      window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: 'smooth',
+      });
+    }, 50);
+  };
+
   return (
     <section
       ref={sectionRef}
@@ -199,7 +209,7 @@ const Services = () => {
                 ))}
               </ul>
 
-              {/* Know More Link — now using React Router Link */}
+              {/* Know More Link — scrolls to top on click */}
               <motion.div
                 whileHover={{ x: 5 }}
                 transition={{ type: "spring", stiffness: 300, damping: 20 }}
@@ -207,6 +217,7 @@ const Services = () => {
               >
                 <Link
                   to="/contact"
+                  onClick={handleKnowMoreClick}
                   className="inline-flex items-center gap-2 text-sm font-medium text-blue-500 hover:text-blue-400 transition-colors"
                 >
                   Know More

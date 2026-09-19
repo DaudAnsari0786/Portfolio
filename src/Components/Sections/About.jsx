@@ -11,7 +11,15 @@ const containerVariants = {
     transition: { staggerChildren: 0.12, delayChildren: 0.15 },
   },
 };
-
+const handleKnowMoreClick = () => {
+  setTimeout(() => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'smooth',
+    });
+  }, 50);
+};
 const itemVariants = {
   hidden: { opacity: 0, y: 30 },
   visible: {
@@ -200,6 +208,7 @@ const About = () => {
             <motion.div variants={itemVariants}>
               <Link
                 to="/contact"
+                onClick={handleKnowMoreClick}
                 className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 px-7 py-3.5 text-sm font-semibold shadow-lg shadow-indigo-500/25 transition-transform hover:scale-105"
               >
                 Let's work together

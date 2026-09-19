@@ -49,6 +49,15 @@ const sectionZoom = {
     transition: { duration: 0.9, ease: [0.25, 0.1, 0.25, 1] },
   },
 };
+const handleKnowMoreClick = () => {
+  setTimeout(() => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'smooth',
+    });
+  }, 50);
+};
 
 const AnimatedSection = ({ children, variant = "zoom", className = "" }) => {
   const variantsMap = {
@@ -322,7 +331,7 @@ const Home = () => {
               variants={itemVariants}
               className="inline-flex items-center gap-2 rounded-full border border-slate-700 bg-slate-900/50 backdrop-blur px-5 py-2.5 text-sm text-slate-300 mb-6"
             >
-             
+
               <Sparkles size={20} color="green" className="text-indigo-400 animate-pulse" />
               <span className="text-slate-200 font-medium">
                 Available for opportunities
@@ -381,6 +390,7 @@ const Home = () => {
                 <span className="absolute inset-0 rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 blur-lg opacity-60 group-hover:opacity-100 transition-opacity" />
                 <Link
                   to="/projects"
+                  onClick={handleKnowMoreClick}
                   className="relative inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 px-7 py-3.5 text-sm font-semibold shadow-lg shadow-indigo-500/25"
                 >
                   View my work
@@ -394,6 +404,8 @@ const Home = () => {
               >
                 <Link
                   to="/contact"
+                  onClick={handleKnowMoreClick}
+
                   className="inline-flex items-center gap-2 rounded-full border border-slate-700 px-7 py-3.5 text-sm font-semibold hover:bg-slate-900 hover:border-indigo-500/50 transition-colors"
                 >
                   Get in touch
@@ -437,6 +449,8 @@ const Home = () => {
           >
             <Link
               to="/about"
+              onClick={handleKnowMoreClick}
+
               className="hover:text-indigo-400 transition-colors"
             >
               <ArrowDownToDot />
