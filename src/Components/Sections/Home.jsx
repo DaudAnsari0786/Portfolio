@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import img1 from "/public/img.jpeg";
+import img1 from "/public/img1.jpeg";
 import { ArrowDownToDot, ArrowRight, Sparkles } from "lucide-react";
 import About from "./About";
 import Projects from "./Project";

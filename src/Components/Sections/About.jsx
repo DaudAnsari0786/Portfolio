@@ -1,7 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import img from "/public/img2.png";
+import img from "/public/img.jpeg";
 
 // ── Animation variants ──
 const containerVariants = {
