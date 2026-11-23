@@ -16,7 +16,7 @@ const handleKnowMoreClick = () => {
     window.scrollTo({
       top: 0,
       left: 0,
-      behavior: 'smooth',
+      behavior: "smooth",
     });
   }, 50);
 };
@@ -47,12 +47,12 @@ const About = () => {
         <motion.div
           animate={{ x: [0, 80, 0], y: [0, -60, 0] }}
           transition={{ duration: 22, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute -top-40 -left-40 w-[500px] h-[500px] bg-indigo-600/15 rounded-full blur-3xl"
+          className="absolute -top-40 -left-40 w-[500px] h-[500px] bg-blue-600/15 rounded-full blur-3xl"
         />
         <motion.div
           animate={{ x: [0, -80, 0], y: [0, 60, 0] }}
           transition={{ duration: 28, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute bottom-0 -right-40 w-[600px] h-[600px] bg-purple-600/15 rounded-full blur-3xl"
+          className="absolute bottom-0 -right-40 w-[600px] h-[600px] bg-cyan-600/15 rounded-full blur-3xl"
         />
       </div>
 
@@ -66,27 +66,28 @@ const About = () => {
         >
           <motion.p
             variants={itemVariants}
-            className="text-sm text-indigo-400 font-medium mb-3 tracking-widest uppercase"
+            className="text-sm text-blue-500 font-medium mb-3 tracking-widest uppercase"
           >
             Get to know me
           </motion.p>
+
+          {/* MATCHED: Size and Gradient text */}
           <motion.h1
             variants={itemVariants}
-            className="text-5xl md:text-7xl font-bold tracking-tight leading-[1.1] mb-6"
+            className="section-title text-left" // Added text-left to align with your About layout
+            style={{ textAlign: "left" }} // Overriding the center alignment for About page
           >
-            About{" "}
-            <span className="bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
-              Me
-            </span>
+            About <span className="section-gradient-text">Me</span>
           </motion.h1>
+
           <motion.p
             variants={itemVariants}
-            className="text-lg text-slate-400 leading-relaxed"
+            className="text-lg text-gray-400 leading-relaxed"
           >
             A dedicated BCA student specializing in Computer Applications,
-            graduating in 2026 from MMH College, Noida. Motivated fresher
-            eager to leverage foundational knowledge and a keen interest in
-            Frontend Development to contribute to innovative projects.
+            graduating in 2026 from MMH College, Noida. Motivated fresher eager
+            to leverage foundational knowledge and a keen interest in Frontend
+            Development to contribute to innovative projects.
           </motion.p>
         </motion.div>
       </section>
@@ -94,8 +95,7 @@ const About = () => {
       {/* ── Bio + Photo Section ── */}
       <section className="relative z-10 px-6 md:px-12 py-16 max-w-7xl mx-auto">
         <div className="grid md:grid-cols-2 gap-16 items-center">
-
-          {/* Photo / Visual — shows FIRST on mobile, LEFT on desktop */}
+          {/* Photo / Visual */}
           <motion.div
             variants={imageVariants}
             initial="hidden"
@@ -108,25 +108,29 @@ const About = () => {
               <motion.div
                 animate={{ rotate: 360 }}
                 transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
-                className="absolute inset-0 rounded-full border border-slate-800"
+                className="absolute inset-0 rounded-full border border-gray-800"
               />
               <motion.div
                 animate={{ rotate: -360 }}
                 transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                className="absolute inset-4 rounded-full border border-slate-800"
+                className="absolute inset-4 rounded-full border border-gray-800"
               />
               <motion.div
                 animate={{ rotate: 360 }}
                 transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
-                className="absolute inset-8 rounded-full border border-indigo-500/20"
+                className="absolute inset-8 rounded-full border border-blue-500/20"
               />
 
               {/* Glow */}
               <div className="absolute inset-0 flex items-center justify-center">
                 <motion.div
                   animate={{ scale: [1, 1.15, 1] }}
-                  transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                  className="w-32 h-32 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 blur-3xl opacity-50"
+                  transition={{
+                    duration: 4,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                  }}
+                  className="w-32 h-32 rounded-full bg-gradient-to-br from-blue-500 to-cyan-400 blur-3xl opacity-50"
                 />
               </div>
 
@@ -134,8 +138,12 @@ const About = () => {
               <div className="absolute inset-10 flex items-center justify-center">
                 <motion.div
                   animate={{ y: [0, -8, 0] }}
-                  transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-                  className="relative w-full h-full rounded-full overflow-hidden border-4 border-slate-800 bg-gradient-to-br from-slate-800 to-slate-900"
+                  transition={{
+                    duration: 5,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                  }}
+                  className="relative w-full h-full rounded-full overflow-hidden border-4 border-gray-800 bg-gradient-to-br from-gray-800 to-gray-900"
                 >
                   <img
                     src={img}
@@ -147,7 +155,7 @@ const About = () => {
             </div>
           </motion.div>
 
-          {/* Bio Text — shows SECOND on mobile, RIGHT on desktop */}
+          {/* Bio Text */}
           <motion.div
             variants={containerVariants}
             initial="hidden"
@@ -159,13 +167,13 @@ const About = () => {
               variants={itemVariants}
               className="text-3xl md:text-4xl font-bold tracking-tight mb-6"
             >
-              Hello, I'm{" "}
-              <span className="text-indigo-400">Abu Bakar Ansari</span> 👋
+              Hello, I'm <span className="text-blue-500">Abu Bakar Ansari</span>{" "}
+              👋
             </motion.h2>
 
             <motion.p
               variants={itemVariants}
-              className="text-slate-400 leading-relaxed mb-4"
+              className="text-gray-400 leading-relaxed mb-4"
             >
               I'm a passionate front-end developer currently completing my BCA
               from Chaudhary Charan Singh University. My journey into web
@@ -176,7 +184,7 @@ const About = () => {
 
             <motion.p
               variants={itemVariants}
-              className="text-slate-400 leading-relaxed mb-8"
+              className="text-gray-400 leading-relaxed mb-8"
             >
               I specialize in React.js and modern CSS frameworks like Tailwind,
               and I'm always looking to grow — whether it's exploring motion
@@ -197,19 +205,22 @@ const About = () => {
               ].map((fact) => (
                 <div
                   key={fact.label}
-                  className="rounded-xl border border-slate-800 bg-slate-900/50 backdrop-blur p-4"
+                  className="rounded-xl border border-gray-800 bg-[#111827] p-4"
                 >
-                  <p className="text-xs text-slate-500 mb-1">{fact.label}</p>
-                  <p className="text-sm font-medium">{fact.value}</p>
+                  <p className="text-xs text-gray-500 mb-1">{fact.label}</p>
+                  <p className="text-sm font-medium text-gray-200">
+                    {fact.value}
+                  </p>
                 </div>
               ))}
             </motion.div>
 
+            {/* MATCHED: Button background and hover */}
             <motion.div variants={itemVariants}>
               <Link
                 to="/contact"
                 onClick={handleKnowMoreClick}
-                className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 px-7 py-3.5 text-sm font-semibold shadow-lg shadow-indigo-500/25 transition-transform hover:scale-105"
+                className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-blue-500 to-cyan-400 px-7 py-3.5 text-sm font-semibold text-white shadow-lg shadow-blue-500/25 transition-transform hover:scale-105"
               >
                 Let's work together
                 <svg

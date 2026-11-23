@@ -230,7 +230,6 @@ const Projects = () => {
       onClick={handleSectionClick}
       className="py-24 px-4 bg-slate-950 min-h-screen overflow-hidden relative scroll-mt-20 cursor-pointer"
     >
-
       {/* ── Animated Background Blobs ── */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <motion.div
@@ -251,7 +250,6 @@ const Projects = () => {
       </div>
 
       <div className="max-w-7xl mx-auto relative z-10">
-
         {/* Header — zooms out on scroll */}
         <motion.div
           variants={zoomOut}
@@ -260,14 +258,8 @@ const Projects = () => {
           viewport={{ once: true, amount: 0.3 }}
           className="text-center mb-16"
         >
-          <motion.h2
-            initial={{ opacity: 0, y: -20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            whileHover={HOVER_SCALE}
-            className="text-4xl md:text-5xl font-bold tracking-tight text-white mb-4 cursor-pointer inline-block"
-          >
-            My Latest <span className="bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">Projects</span>
+          <motion.h2 className="section-title">
+            My <span className="section-gradient-text">Projects</span>
           </motion.h2>
           <motion.p
             initial={{ opacity: 0 }}
@@ -277,7 +269,8 @@ const Projects = () => {
             whileHover={HOVER_SCALE}
             className="text-lg text-slate-400 max-w-2xl mx-auto cursor-pointer"
           >
-            Showcasing my best work in web development, focusing on performance, accessibility, and modern design.
+            Showcasing my best work in web development, focusing on performance,
+            accessibility, and modern design.
           </motion.p>
         </motion.div>
 

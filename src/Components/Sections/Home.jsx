@@ -40,7 +40,7 @@ const imageVariants = {
   },
 };
 
-// ── Zoom-out scroll variants (matching all your sections) ──
+// ── Zoom-out scroll variants ──
 const sectionZoom = {
   hidden: { opacity: 0, scale: 0.85 },
   visible: {
@@ -49,12 +49,13 @@ const sectionZoom = {
     transition: { duration: 0.9, ease: [0.25, 0.1, 0.25, 1] },
   },
 };
+
 const handleKnowMoreClick = () => {
   setTimeout(() => {
     window.scrollTo({
       top: 0,
       left: 0,
-      behavior: 'smooth',
+      behavior: "smooth",
     });
   }, 50);
 };
@@ -77,7 +78,7 @@ const AnimatedSection = ({ children, variant = "zoom", className = "" }) => {
   );
 };
 
-// ── Typing roles (for the animated subtitle) ──
+// ── Typing roles ──
 const ROLES = [
   "Frontend Developer",
   "React.js Enthusiast",
@@ -130,8 +131,13 @@ const TECH_BADGES = [
   },
 ];
 
-// ── Typewriter hook (no external lib) ──
-const useTypewriter = (words, typingSpeed = 90, deletingSpeed = 45, pause = 1400) => {
+// ── Typewriter hook ──
+const useTypewriter = (
+  words,
+  typingSpeed = 90,
+  deletingSpeed = 45,
+  pause = 1400,
+) => {
   const [index, setIndex] = useState(0);
   const [text, setText] = useState("");
   const [isDeleting, setIsDeleting] = useState(false);
@@ -151,10 +157,10 @@ const useTypewriter = (words, typingSpeed = 90, deletingSpeed = 45, pause = 1400
           setText((prev) =>
             isDeleting
               ? current.substring(0, prev.length - 1)
-              : current.substring(0, prev.length + 1)
+              : current.substring(0, prev.length + 1),
           );
         },
-        isDeleting ? deletingSpeed : typingSpeed
+        isDeleting ? deletingSpeed : typingSpeed,
       );
     }
 
@@ -169,7 +175,7 @@ const Home = () => {
 
   return (
     <div className="min-h-screen bg-slate-950 text-white overflow-x-hidden">
-      {/* ── Grid backdrop (subtle) ── */}
+      {/* ── Grid backdrop ── */}
       <div
         className="fixed inset-0 pointer-events-none opacity-[0.07] z-0"
         style={{
@@ -213,7 +219,6 @@ const Home = () => {
             className="relative flex justify-center items-center order-1 md:order-2"
           >
             <div className="relative w-72 h-72 md:w-96 md:h-96">
-              {/* Rotating gradient conic glow behind everything */}
               <motion.div
                 animate={{ rotate: 360 }}
                 transition={{ duration: 12, repeat: Infinity, ease: "linear" }}
@@ -331,21 +336,24 @@ const Home = () => {
               variants={itemVariants}
               className="inline-flex items-center gap-2 rounded-full border border-slate-700 bg-slate-900/50 backdrop-blur px-5 py-2.5 text-sm text-slate-300 mb-6"
             >
-
-              <Sparkles size={20} color="green" className="text-indigo-400 animate-pulse" />
+              <Sparkles
+                size={20}
+                color="green"
+                className="text-indigo-400 animate-pulse"
+              />
               <span className="text-slate-200 font-medium">
                 Available for opportunities
               </span>
             </motion.div>
 
+            {/* UPDATED: Exact size and gradient text match */}
             <motion.h1
               variants={itemVariants}
-              className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.1] mb-4"
+              className="section-title"
+              style={{ textAlign: "left" }} // Overrides the center alignment from CSS
             >
               Hii, I am{" "}
-              <span className="relative inline-block bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent bg-[length:200%_auto] animate-[gradient_3s_linear_infinite]">
-                Abu Bakar Ansari
-              </span>
+              <span className="section-gradient-text">Abu Bakar Ansari</span>
             </motion.h1>
 
             <motion.h2
@@ -353,12 +361,14 @@ const Home = () => {
               className="text-xl md:text-2xl font-semibold text-slate-300 mb-6 min-h-[2rem]"
             >
               I am a{" "}
-              <span className="text-indigo-400">
+              <span className="text-blue-500">
+                {" "}
+                {/* Matched to the Services blue */}
                 {typedRole}
                 <motion.span
                   animate={{ opacity: [1, 0, 1] }}
                   transition={{ duration: 1, repeat: Infinity }}
-                  className="inline-block ml-0.5 text-indigo-400"
+                  className="inline-block ml-0.5 text-blue-500"
                 >
                   |
                 </motion.span>
@@ -367,7 +377,7 @@ const Home = () => {
 
             <motion.p
               variants={itemVariants}
-              className="text-lg text-slate-400 max-w-xl mb-8 leading-relaxed"
+              className="text-lg text-gray-400 max-w-xl mb-8 leading-relaxed"
             >
               Hi! I'm Abu Bakar Ansari, and i am a passionate front-end
               developer specializing in translating design concepts into
@@ -378,6 +388,7 @@ const Home = () => {
               clean code and creative design.
             </motion.p>
 
+            {/* UPDATED: Matched button backgrounds and borders to Services page */}
             <motion.div
               variants={itemVariants}
               className="flex flex-wrap items-center gap-4 mb-10"
@@ -387,11 +398,11 @@ const Home = () => {
                 whileTap={{ scale: 0.95 }}
                 className="relative"
               >
-                <span className="absolute inset-0 rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 blur-lg opacity-60 group-hover:opacity-100 transition-opacity" />
+                <span className="absolute inset-0 rounded-full bg-gradient-to-r from-blue-500 to-cyan-400 blur-lg opacity-60 group-hover:opacity-100 transition-opacity" />
                 <Link
                   to="/projects"
                   onClick={handleKnowMoreClick}
-                  className="relative inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 px-7 py-3.5 text-sm font-semibold shadow-lg shadow-indigo-500/25"
+                  className="relative inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-blue-500 to-cyan-400 px-7 py-3.5 text-sm font-semibold text-white shadow-lg shadow-blue-500/25"
                 >
                   View my work
                   <ArrowRight />
@@ -405,8 +416,7 @@ const Home = () => {
                 <Link
                   to="/contact"
                   onClick={handleKnowMoreClick}
-
-                  className="inline-flex items-center gap-2 rounded-full border border-slate-700 px-7 py-3.5 text-sm font-semibold hover:bg-slate-900 hover:border-indigo-500/50 transition-colors"
+                  className="inline-flex items-center gap-2 rounded-full border border-gray-700 px-7 py-3.5 text-sm font-semibold hover:bg-[#111827] hover:border-blue-500/50 transition-colors text-gray-200"
                 >
                   Get in touch
                 </Link>
@@ -421,14 +431,12 @@ const Home = () => {
                 <motion.div
                   key={stat.label}
                   whileHover={{ y: -4 }}
-                  className="border-l-2 border-indigo-500/40 pl-4"
+                  className="border-l-2 border-blue-500/40 pl-4" // Matched border to blue
                 >
-                  <div className="text-2xl md:text-3xl font-bold bg-gradient-to-br from-white to-slate-400 bg-clip-text text-transparent">
+                  <div className="text-2xl md:text-3xl font-bold bg-gradient-to-br from-white to-gray-400 bg-clip-text text-transparent">
                     {stat.value}
                   </div>
-                  <div className="text-xs text-slate-500 mt-1">
-                    {stat.label}
-                  </div>
+                  <div className="text-xs text-gray-500 mt-1">{stat.label}</div>
                 </motion.div>
               ))}
             </motion.div>
@@ -445,13 +453,12 @@ const Home = () => {
           <motion.div
             animate={{ y: [0, 10, 0] }}
             transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-            className="flex flex-col items-center gap-2 text-slate-500"
+            className="flex flex-col items-center gap-2 text-gray-500"
           >
             <Link
               to="/about"
               onClick={handleKnowMoreClick}
-
-              className="hover:text-indigo-400 transition-colors"
+              className="hover:text-blue-500 transition-colors"
             >
               <ArrowDownToDot />
             </Link>
@@ -461,30 +468,24 @@ const Home = () => {
 
       {/* ── Scroll-animated Sections with Top & Bottom Shadow ── */}
       <div className="relative">
-        {/* Top shadow */}
         <div className="pointer-events-none absolute top-0 left-0 right-0 h-24 md:h-32 bg-gradient-to-b from-slate-950 via-slate-950/70 to-transparent z-20" />
 
         <AnimatedSection variant="zoom">
           <About />
         </AnimatedSection>
-
         <AnimatedSection variant="zoom">
           <Projects />
         </AnimatedSection>
-
         <AnimatedSection variant="zoom">
           <Service />
         </AnimatedSection>
-
         <AnimatedSection variant="zoom">
           <Skills />
         </AnimatedSection>
-
         <AnimatedSection variant="zoom">
           <Contact />
         </AnimatedSection>
 
-        {/* Bottom shadow */}
         <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-24 md:h-32 bg-gradient-to-t from-slate-950 via-slate-950/70 to-transparent z-20" />
       </div>
     </div>

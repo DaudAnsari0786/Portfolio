@@ -123,12 +123,10 @@ const Skills = () => {
       onClick={handleSectionClick}
       className="py-24 px-4 bg-[#0B1120] min-h-screen relative overflow-hidden scroll-mt-20 cursor-pointer"
     >
-
       {/* Background Ambient Glow */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[500px] bg-purple-900/10 blur-[120px] rounded-full pointer-events-none" />
 
       <div className="max-w-7xl mx-auto relative z-10">
-
         {/* Header — zooms out on scroll (like Contact's "Get In Touch") */}
         <motion.div
           variants={zoomOut}
@@ -137,13 +135,8 @@ const Skills = () => {
           viewport={{ once: true, amount: 0.3 }}
           className="text-center mb-16"
         >
-          <motion.h2
-            initial={{ opacity: 0, y: -20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-4xl md:text-5xl font-bold text-white mb-4"
-          >
-            My <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-pink-500">Skills</span>
+          <motion.h2 className="section-title">
+            My <span className="section-gradient-text">Skills</span>
           </motion.h2>
           <motion.p
             initial={{ opacity: 0 }}
@@ -152,7 +145,8 @@ const Skills = () => {
             transition={{ delay: 0.2 }}
             className="text-gray-400 max-w-2xl mx-auto"
           >
-            A comprehensive overview of the technologies and tools I use to bring ideas to life.
+            A comprehensive overview of the technologies and tools I use to
+            bring ideas to life.
           </motion.p>
         </motion.div>
 
@@ -174,7 +168,9 @@ const Skills = () => {
             >
               {/* Top Section: Icon & Name */}
               <div className="flex items-center gap-4 mb-6">
-                <div className={`w-12 h-12 rounded-xl bg-gray-800 flex items-center justify-center text-2xl ${skill.color} group-hover:scale-110 transition-transform duration-300`}>
+                <div
+                  className={`w-12 h-12 rounded-xl bg-gray-800 flex items-center justify-center text-2xl ${skill.color} group-hover:scale-110 transition-transform duration-300`}
+                >
                   {skill.icon}
                 </div>
                 <h3 className="text-lg font-bold text-white group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-gray-400 transition-all duration-300">

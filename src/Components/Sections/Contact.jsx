@@ -157,7 +157,6 @@ const Contact = () => {
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-[500px] bg-blue-900/10 blur-[120px] rounded-full pointer-events-none" />
 
       <div className="max-w-7xl mx-auto w-full relative z-10">
-
         {/* Header Section — zooms out on scroll */}
         <motion.div
           variants={zoomOut}
@@ -166,13 +165,8 @@ const Contact = () => {
           viewport={{ once: true, amount: 0.3 }}
           className="text-center mb-16"
         >
-          <motion.h2
-            initial={{ opacity: 0, y: -20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-4xl md:text-5xl font-bold text-white mb-4"
-          >
-            Get In <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-500">Touch</span>
+          <motion.h2 className="section-title">
+            Get In <span className="section-gradient-text">Touch</span>
           </motion.h2>
           <motion.p
             initial={{ opacity: 0 }}
@@ -186,7 +180,6 @@ const Contact = () => {
         </motion.div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-
           {/* --- Left Column: Contact Info (zoom out) --- */}
           <motion.div
             variants={containerVariants}
@@ -205,11 +198,17 @@ const Contact = () => {
                   transition={{ type: "spring", stiffness: 300, damping: 20 }}
                   className={`p-6 rounded-2xl bg-[#1F2937] border border-gray-800 shadow-lg transition-shadow duration-300 ${info.shadow} group`}
                 >
-                  <div className={`w-12 h-12 rounded-lg ${info.bg} ${info.color} flex items-center justify-center text-xl mb-4 group-hover:scale-110 transition-transform duration-300`}>
+                  <div
+                    className={`w-12 h-12 rounded-lg ${info.bg} ${info.color} flex items-center justify-center text-xl mb-4 group-hover:scale-110 transition-transform duration-300`}
+                  >
                     {info.icon}
                   </div>
-                  <h3 className="text-gray-400 text-sm font-medium mb-1">{info.title}</h3>
-                  <p className="text-white font-semibold break-all">{info.value}</p>
+                  <h3 className="text-gray-400 text-sm font-medium mb-1">
+                    {info.title}
+                  </h3>
+                  <p className="text-white font-semibold break-all">
+                    {info.value}
+                  </p>
                 </motion.div>
               ))}
             </div>
@@ -223,10 +222,13 @@ const Contact = () => {
               whileHover={{ scale: 1.01 }}
               className="p-8 rounded-2xl bg-[#1F2937] border border-gray-800 shadow-lg hover:shadow-[0_0_10px_-5px_rgba(255,255,255,0.1)] transition-shadow duration-300"
             >
-              <h3 className="text-2xl font-bold text-white mb-4">Let's Work Together</h3>
+              <h3 className="text-2xl font-bold text-white mb-4">
+                Let's Work Together
+              </h3>
               <p className="text-gray-400 leading-relaxed mb-8">
-                I'm currently available for freelance work and open to full-time opportunities.
-                If you have a project that needs a creative touch, I'd love to hear about it.
+                I'm currently available for freelance work and open to full-time
+                opportunities. If you have a project that needs a creative
+                touch, I'd love to hear about it.
               </p>
 
               <h4 className="text-white font-medium mb-4">Connect with me:</h4>
@@ -235,7 +237,11 @@ const Contact = () => {
                   <motion.a
                     key={index}
                     href={social.href}
-                    whileHover={{ y: -3, backgroundColor: "#374151", boxShadow: "0 0 15px rgba(255,255,255,0.1)" }}
+                    whileHover={{
+                      y: -3,
+                      backgroundColor: "#374151",
+                      boxShadow: "0 0 15px rgba(255,255,255,0.1)",
+                    }}
                     whileTap={{ scale: 0.95 }}
                     className="w-10 h-10 rounded-lg bg-[#111827] flex items-center justify-center text-gray-400 hover:text-white transition-all border border-gray-700"
                   >
@@ -254,12 +260,16 @@ const Contact = () => {
             viewport={{ once: true, amount: 0.2 }}
             className="p-8 rounded-2xl bg-[#1F2937] border border-gray-800 h-full shadow-xl"
           >
-            <h2 className="text-2xl font-bold text-white text-center mb-8">Send Me a Message</h2>
+            <h2 className="text-2xl font-bold text-white text-center mb-8">
+              Send Me a Message
+            </h2>
 
             <form onSubmit={handleSubmit} className="space-y-6">
               {/* Name Field */}
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-300">Name <span className="text-red-500">*</span></label>
+                <label className="text-sm font-medium text-gray-300">
+                  Name <span className="text-red-500">*</span>
+                </label>
                 <div className="relative group">
                   <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-500 group-focus-within:text-blue-500 transition-colors">
                     <FaUser />
@@ -278,7 +288,9 @@ const Contact = () => {
 
               {/* Email Field */}
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-300">Email <span className="text-red-500">*</span></label>
+                <label className="text-sm font-medium text-gray-300">
+                  Email <span className="text-red-500">*</span>
+                </label>
                 <div className="relative group">
                   <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-500 group-focus-within:text-blue-500 transition-colors">
                     <FaEnvelope />
@@ -297,7 +309,9 @@ const Contact = () => {
 
               {/* Subject Field */}
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-300">Subject</label>
+                <label className="text-sm font-medium text-gray-300">
+                  Subject
+                </label>
                 <div className="relative group">
                   <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-500 group-focus-within:text-blue-500 transition-colors">
                     <FaCommentDots />
@@ -315,7 +329,9 @@ const Contact = () => {
 
               {/* Message Field */}
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-300">Message <span className="text-red-500">*</span></label>
+                <label className="text-sm font-medium text-gray-300">
+                  Message <span className="text-red-500">*</span>
+                </label>
                 <textarea
                   rows="5"
                   name="message"
@@ -330,7 +346,10 @@ const Contact = () => {
               {/* Submit Button */}
               <motion.button
                 type="submit"
-                whileHover={{ scale: 1.02, boxShadow: "0 0 20px rgba(37, 99, 235, 0.4)" }}
+                whileHover={{
+                  scale: 1.02,
+                  boxShadow: "0 0 20px rgba(37, 99, 235, 0.4)",
+                }}
                 whileTap={{ scale: 0.98 }}
                 className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3.5 rounded-lg flex items-center justify-center gap-2 transition-all shadow-lg"
               >
