@@ -199,6 +199,12 @@ const AnimatedRoutes = () => {
   );
 };
 
+
+
+
+
+
+
 const App = () => {
   return (
     // Semantic HTML for SEO & Accessibility

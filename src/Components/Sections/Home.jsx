@@ -102,7 +102,7 @@ const TECH_BADGES = [
     floatDirection: -15,
   },
   {
-    name: "CSS",
+    name: "Vanilla CSS",
     icon: "🎨",
     category: "Styling",
     position: "bottom-1/3 -left-6 md:-left-16",

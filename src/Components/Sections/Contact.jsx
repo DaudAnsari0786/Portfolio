@@ -1,6 +1,21 @@
 import React, { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { FaEnvelope, FaPhoneAlt, FaMapMarkerAlt, FaClock, FaGithub, FaLinkedin, FaTwitter, FaFacebookF, FaUser, FaCommentDots, FaPaperPlane } from 'react-icons/fa';
+import emailjs from '@emailjs/browser';
+import {
+  FaEnvelope,
+  FaPhoneAlt,
+  FaMapMarkerAlt,
+  FaClock,
+  FaGithub,
+  FaLinkedin,
+  FaTwitter,
+  FaFacebookF,
+  FaUser,
+  FaCommentDots,
+  FaPaperPlane,
+  FaCheckCircle,
+  FaExclamationCircle,
+} from 'react-icons/fa';
 
 const Contact = () => {
   const sectionRef = useRef(null);
@@ -10,33 +25,64 @@ const Contact = () => {
     name: '',
     email: '',
     subject: '',
-    message: ''
+    message: '',
   });
+
+  const [status, setStatus] = useState(null); // 'success' | 'error' | null
+  const [sending, setSending] = useState(false);
 
   // Handle input changes
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
   // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Message Sent:", formData);
-    setFormData({
-      name: '',
-      email: '',
-      subject: '',
-      message: ''
-    });
+    setSending(true);
+    setStatus(null);
+
+    // ✅ Matches {{name}}, {{subject}}, {{time}}, {{message}} in the template
+    const templateParams = {
+      name: formData.name,
+      email: formData.email,
+      subject: formData.subject || 'No Subject',
+      time: new Date().toLocaleString('en-IN', {
+        dateStyle: 'medium',
+        timeStyle: 'short',
+      }),
+      message: formData.message,
+      to_email: 'daudansari6472@gmail.com',
+    };
+
+    emailjs
+      .send(
+        'service_nccbhc5',
+        'template_27bi34s',
+        templateParams,
+        'Y-Nw-xMFUJva95ZB-'
+      )
+      .then((response) => {
+        console.log('SUCCESS!', response.status, response.text);
+        setSending(false);
+        setStatus('success');
+        setFormData({ name: '', email: '', subject: '', message: '' });
+        setTimeout(() => setStatus(null), 4000);
+      })
+      .catch((err) => {
+        console.error('FAILED...', err);
+        setSending(false);
+        setStatus('error');
+        setTimeout(() => setStatus(null), 4000);
+      });
   };
 
   // Smooth scroll to top of section on click
   const handleSectionClick = (e) => {
-    // Don't scroll if user clicked on form fields, buttons, links, or textarea
     const tag = e.target.tagName.toLowerCase();
     if (
       tag === 'input' ||
@@ -82,13 +128,12 @@ const Contact = () => {
     },
   };
 
-  // Animation Variants (for stagger children inside)
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
-      transition: { staggerChildren: 0.1, delayChildren: 0.1 }
-    }
+      transition: { staggerChildren: 0.1, delayChildren: 0.1 },
+    },
   };
 
   const itemVariants = {
@@ -97,67 +142,73 @@ const Contact = () => {
       opacity: 1,
       y: 0,
       scale: 1,
-      transition: { type: "spring", stiffness: 100, damping: 15 }
-    }
+      transition: { type: 'spring', stiffness: 100, damping: 15 },
+    },
   };
 
   const contactInfo = [
     {
       id: 1,
-      title: "Email",
-      value: "daudansari6472@gmail.com",
+      title: 'Email',
+      value: 'daudansari6472@gmail.com',
       icon: <FaEnvelope />,
-      color: "text-blue-500",
-      bg: "bg-blue-500/10",
-      shadow: "hover:shadow-[0_0_10px_-5px_rgba(34,197,94,0.3)]"
+      color: 'text-blue-500',
+      bg: 'bg-blue-500/10',
+      shadow: 'hover:shadow-[0_0_10px_-5px_rgba(34,197,94,0.3)]',
     },
     {
       id: 2,
-      title: "Phone",
-      value: "+91 9026350956",
+      title: 'Phone',
+      value: '+91 9026350956',
       icon: <FaPhoneAlt />,
-      color: "text-green-500",
-      bg: "bg-green-500/10",
-      shadow: "hover:shadow-[0_0_10px_-5px_rgba(34,197,94,0.3)]"
+      color: 'text-green-500',
+      bg: 'bg-green-500/10',
+      shadow: 'hover:shadow-[0_0_10px_-5px_rgba(34,197,94,0.3)]',
     },
     {
       id: 3,
-      title: "Location",
-      value: "Azamgarh, India",
+      title: 'Location',
+      value: 'Azamgarh, India',
       icon: <FaMapMarkerAlt />,
-      color: "text-purple-500",
-      bg: "bg-purple-500/10",
-      shadow: "hover:shadow-[0_0_10px_-5px_rgba(34,197,94,0.3)]"
+      color: 'text-purple-500',
+      bg: 'bg-purple-500/10',
+      shadow: 'hover:shadow-[0_0_10px_-5px_rgba(34,197,94,0.3)]',
     },
     {
       id: 4,
-      title: "Availability",
-      value: "Mon - Sat, 9 AM - 6 PM",
+      title: 'Availability',
+      value: 'Mon - Sat, 9 AM - 6 PM',
       icon: <FaClock />,
-      color: "text-orange-500",
-      bg: "bg-orange-500/10",
-      shadow: "hover:shadow-[0_0_10px_-5px_rgba(34,197,94,0.3)]"
-    }
+      color: 'text-orange-500',
+      bg: 'bg-orange-500/10',
+      shadow: 'hover:shadow-[0_0_10px_-5px_rgba(34,197,94,0.3)]',
+    },
   ];
 
   const socialLinks = [
-    { icon: <FaGithub />, href: "https://github.com/DaudAnsari0786" },
-    { icon: <FaLinkedin />, href: "www.linkedin.com/in/abu-bakar-ansari-798717436 Vanity URL name" },
-    { icon: <FaTwitter />, href: "https://x.com/daudansari6472" },
-    { icon: <FaFacebookF />, href: "https://www.facebook.com/kameena.ladka.549221?rdid=T18sB82hWoxNan06&share_url=https%253A%252F%252Fwww.facebook.com%252Fshare%252F19Gs3qKSgw%252F#" },
+    { icon: <FaGithub />, href: 'https://github.com/DaudAnsari0786' },
+    {
+      icon: <FaLinkedin />,
+      href: 'https://www.linkedin.com/in/abu-bakar-ansari-798717436',
+    },
+    { icon: <FaTwitter />, href: 'https://x.com/daudansari6472' },
+    {
+      icon: <FaFacebookF />,
+      href: 'https://www.facebook.com/kameena.ladka.549221',
+    },
   ];
 
   return (
     <section
       ref={sectionRef}
       onClick={handleSectionClick}
-      className="py-24 px-4 bg-[#111827] min-h-screen flex items-center justify-center relative overflow-hidden scroll-mt-20 cursor-pointer"
+      className="py-24 px-4 bg-[#111827] min-h-screen flex items-center justify-center relative overflow-hidden scroll-mt-20"
     >
       {/* Background Ambient Glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-[500px] bg-blue-900/10 blur-[120px] rounded-full pointer-events-none" />
 
       <div className="max-w-7xl mx-auto w-full relative z-10">
-        {/* Header Section — zooms out on scroll */}
+        {/* Header */}
         <motion.div
           variants={zoomOut}
           initial="hidden"
@@ -180,7 +231,7 @@ const Contact = () => {
         </motion.div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-          {/* --- Left Column: Contact Info (zoom out) --- */}
+          {/* --- Left Column: Contact Info --- */}
           <motion.div
             variants={containerVariants}
             initial="hidden"
@@ -188,14 +239,13 @@ const Contact = () => {
             viewport={{ once: true, amount: 0.2 }}
             className="space-y-6"
           >
-            {/* Top Grid: Info Cards */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               {contactInfo.map((info) => (
                 <motion.div
                   key={info.id}
                   variants={itemVariants}
                   whileHover={{ y: -5, scale: 1.02 }}
-                  transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                  transition={{ type: 'spring', stiffness: 300, damping: 20 }}
                   className={`p-6 rounded-2xl bg-[#1F2937] border border-gray-800 shadow-lg transition-shadow duration-300 ${info.shadow} group`}
                 >
                   <div
@@ -213,7 +263,6 @@ const Contact = () => {
               ))}
             </div>
 
-            {/* Bottom Card: Let's Work Together */}
             <motion.div
               variants={zoomOutSoft}
               initial="hidden"
@@ -237,13 +286,15 @@ const Contact = () => {
                   <motion.a
                     key={index}
                     href={social.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     whileHover={{
                       y: -3,
-                      backgroundColor: "#374151",
-                      boxShadow: "0 0 15px rgba(255,255,255,0.1)",
+                      backgroundColor: '#374151',
+                      boxShadow: '0 0 15px rgba(255,255,255,0.1)',
                     }}
                     whileTap={{ scale: 0.95 }}
-                    className="w-10 h-10 rounded-lg bg-[#111827] flex items-center justify-center text-gray-400 hover:text-white transition-all border border-gray-700"
+                    className="w-10 h-10 rounded-lg bg-[#111827] flex items-center justify-center text-gray-400 hover:text-white transition-all border border-gray-700 cursor-pointer"
                   >
                     {social.icon}
                   </motion.a>
@@ -252,7 +303,7 @@ const Contact = () => {
             </motion.div>
           </motion.div>
 
-          {/* --- Right Column: Contact Form (zoom out) --- */}
+          {/* --- Right Column: Contact Form --- */}
           <motion.div
             variants={zoomOut}
             initial="hidden"
@@ -265,7 +316,7 @@ const Contact = () => {
             </h2>
 
             <form onSubmit={handleSubmit} className="space-y-6">
-              {/* Name Field */}
+              {/* Name */}
               <div className="space-y-2">
                 <label className="text-sm font-medium text-gray-300">
                   Name <span className="text-red-500">*</span>
@@ -286,7 +337,7 @@ const Contact = () => {
                 </div>
               </div>
 
-              {/* Email Field */}
+              {/* Email */}
               <div className="space-y-2">
                 <label className="text-sm font-medium text-gray-300">
                   Email <span className="text-red-500">*</span>
@@ -307,7 +358,7 @@ const Contact = () => {
                 </div>
               </div>
 
-              {/* Subject Field */}
+              {/* Subject */}
               <div className="space-y-2">
                 <label className="text-sm font-medium text-gray-300">
                   Subject
@@ -327,7 +378,7 @@ const Contact = () => {
                 </div>
               </div>
 
-              {/* Message Field */}
+              {/* Message */}
               <div className="space-y-2">
                 <label className="text-sm font-medium text-gray-300">
                   Message <span className="text-red-500">*</span>
@@ -343,18 +394,66 @@ const Contact = () => {
                 ></textarea>
               </div>
 
+              {/* Status Feedback */}
+              {status === 'success' && (
+                <motion.p
+                  initial={{ opacity: 0, y: -5 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="flex items-center justify-center gap-2 text-green-500 text-sm font-medium"
+                >
+                  <FaCheckCircle /> Message sent successfully!
+                </motion.p>
+              )}
+              {status === 'error' && (
+                <motion.p
+                  initial={{ opacity: 0, y: -5 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="flex items-center justify-center gap-2 text-red-500 text-sm font-medium"
+                >
+                  <FaExclamationCircle /> Something went wrong. Please try again.
+                </motion.p>
+              )}
+
               {/* Submit Button */}
               <motion.button
                 type="submit"
+                disabled={sending}
                 whileHover={{
-                  scale: 1.02,
-                  boxShadow: "0 0 20px rgba(37, 99, 235, 0.4)",
+                  scale: sending ? 1 : 1.02,
+                  boxShadow: sending ? 'none' : '0 0 20px rgba(37, 99, 235, 0.4)',
                 }}
-                whileTap={{ scale: 0.98 }}
-                className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3.5 rounded-lg flex items-center justify-center gap-2 transition-all shadow-lg"
+                whileTap={{ scale: sending ? 1 : 0.98 }}
+                className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-blue-800 disabled:cursor-not-allowed text-white font-semibold py-3.5 rounded-lg flex items-center justify-center gap-2 transition-all shadow-lg"
               >
-                <FaPaperPlane className="text-sm" />
-                Send Message
+                {sending ? (
+                  <>
+                    <svg
+                      className="animate-spin h-4 w-4 text-white"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                    >
+                      <circle
+                        className="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        strokeWidth="4"
+                      />
+                      <path
+                        className="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+                      />
+                    </svg>
+                    Sending...
+                  </>
+                ) : (
+                  <>
+                    <FaPaperPlane className="text-sm" />
+                    Send Message
+                  </>
+                )}
               </motion.button>
             </form>
           </motion.div>
